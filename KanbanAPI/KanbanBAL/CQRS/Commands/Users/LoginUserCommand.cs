@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace KanbanBAL.CQRS.Commands
+namespace KanbanBAL.CQRS.Commands.Users
 {
     public class LoginUserCommand : IRequest<Result<string>>
     {

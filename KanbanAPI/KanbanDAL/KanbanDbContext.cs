@@ -12,9 +12,29 @@ namespace KanbanDAL
         {
         }
 
-        public DbSet<User> users { get; set; }
-        public DbSet<Board> boards { get; set; }
-        public DbSet<Column> columns { get; set; }
-        public DbSet<Job> jobs { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Board> Boards { get; set; }
+        public DbSet<Column> Columns { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Boards
+            modelBuilder.Entity<Board>()
+                .Property(x => x.Name)
+                .IsRequired();
+
+            // Columns
+            modelBuilder.Entity<Column>()
+                .Property(x => x.Name)
+                .IsRequired();
+
+            // Jobs
+            modelBuilder.Entity<Job>()
+                .Property(x => x.Name)
+                .IsRequired();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

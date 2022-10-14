@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace KanbanBAL.CQRS.Commands
+namespace KanbanBAL.CQRS.Commands.Users
 {
     public class RegisterUserCommand : IRequest<Result<string>>
     {
@@ -31,16 +31,26 @@ namespace KanbanBAL.CQRS.Commands
 
         public async Task<Result<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.UserName) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.ConfirmPassword))
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(request.Email) 
+                || string.IsNullOrEmpty(request.UserName) 
+                || string.IsNullOrEmpty(request.Password) 
+                || string.IsNullOrEmpty(request.ConfirmPassword))
             {
-                _logger.LogError($"[{DateTime.UtcNow}] Fill all fields!");
-                return Result.BadRequest<string>(new List<string> { "Fill all fields!" });
+                errors.Add("Fill all fields!");
+            }
+
+            var userEmailCheck = await _userManager.FindByEmailAsync(request.Email);
+
+            if (userEmailCheck != null)
+            {
+                errors.Add($"Email '{request.Email}' is already taken.");
             }
 
             if (request.Password != request.ConfirmPassword)
             {
-                _logger.LogError($"[{DateTime.UtcNow}] Passwords don't match!");
-                return Result.BadRequest<string>(new List<string> { "Passwords don't match!" });
+                errors.Add("Passwords don't match!");
             }
 
             var user = new User
@@ -53,8 +63,13 @@ namespace KanbanBAL.CQRS.Commands
 
             if (!result.Succeeded)
             {
-                _logger.LogError(string.Join(" ", result.Errors.Select(x => x.Description)));
-                return Result.BadRequest<string>(result.Errors.Select(x => x.Description).ToList());
+                errors.AddRange(result.Errors.Select(x => x.Description).ToList());
+            }
+
+            if (errors.Count > 0)
+            {
+                _logger.LogError(string.Join(Environment.NewLine, errors));
+                return Result.BadRequest<string>(errors);
             }
 
             var token = _tokenGenerator.CreateToken(user);

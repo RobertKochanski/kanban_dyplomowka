@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -23,16 +24,16 @@ namespace KanbanDAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "boards",
+                name: "Boards",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_boards", x => x.Id);
+                    table.PrimaryKey("PK_Boards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,40 +115,40 @@ namespace KanbanDAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "columns",
+                name: "Columns",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_columns", x => x.Id);
+                    table.PrimaryKey("PK_Columns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_columns_boards_BoardId",
+                        name: "FK_Columns_Boards_BoardId",
                         column: x => x.BoardId,
-                        principalTable: "boards",
+                        principalTable: "Boards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "jobs",
+                name: "Jobs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ColumnId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ColumnId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_jobs", x => x.Id);
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_jobs_columns_ColumnId",
+                        name: "FK_Jobs_Columns_ColumnId",
                         column: x => x.ColumnId,
-                        principalTable: "columns",
+                        principalTable: "Columns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -157,7 +158,6 @@ namespace KanbanDAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -178,14 +178,9 @@ namespace KanbanDAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_boards_BoardId",
-                        column: x => x.BoardId,
-                        principalTable: "boards",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_jobs_JobId",
+                        name: "FK_AspNetUsers_Jobs_JobId",
                         column: x => x.JobId,
-                        principalTable: "jobs",
+                        principalTable: "Jobs",
                         principalColumn: "Id");
                 });
 
@@ -274,6 +269,30 @@ namespace KanbanDAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BoardUser",
+                columns: table => new
+                {
+                    BoardsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MembersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BoardUser", x => new { x.BoardsId, x.MembersId });
+                    table.ForeignKey(
+                        name: "FK_BoardUser_AspNetUsers_MembersId",
+                        column: x => x.MembersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BoardUser_Boards_BoardsId",
+                        column: x => x.BoardsId,
+                        principalTable: "Boards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -307,11 +326,6 @@ namespace KanbanDAL.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_BoardId",
-                table: "AspNetUsers",
-                column: "BoardId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_JobId",
                 table: "AspNetUsers",
                 column: "JobId");
@@ -324,8 +338,13 @@ namespace KanbanDAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_columns_BoardId",
-                table: "columns",
+                name: "IX_BoardUser_MembersId",
+                table: "BoardUser",
+                column: "MembersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Columns_BoardId",
+                table: "Columns",
                 column: "BoardId");
 
             migrationBuilder.CreateIndex(
@@ -340,8 +359,8 @@ namespace KanbanDAL.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_jobs_ColumnId",
-                table: "jobs",
+                name: "IX_Jobs_ColumnId",
+                table: "Jobs",
                 column: "ColumnId");
 
             migrationBuilder.CreateIndex(
@@ -388,6 +407,9 @@ namespace KanbanDAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BoardUser");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -403,13 +425,13 @@ namespace KanbanDAL.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "jobs");
+                name: "Jobs");
 
             migrationBuilder.DropTable(
-                name: "columns");
+                name: "Columns");
 
             migrationBuilder.DropTable(
-                name: "boards");
+                name: "Boards");
         }
     }
 }

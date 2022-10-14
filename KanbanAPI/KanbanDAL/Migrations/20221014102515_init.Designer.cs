@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanDAL.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    [Migration("20221010121412_init")]
+    [Migration("20221014102515_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace KanbanDAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("BoardUser", b =>
+                {
+                    b.Property<Guid>("BoardsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MembersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BoardsId", "MembersId");
+
+                    b.HasIndex("MembersId");
+
+                    b.ToTable("BoardUser");
+                });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
@@ -175,13 +190,13 @@ namespace KanbanDAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerEmail")
+                    b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("boards");
+                    b.ToTable("Boards");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Column", b =>
@@ -201,7 +216,7 @@ namespace KanbanDAL.Migrations
 
                     b.HasIndex("BoardId");
 
-                    b.ToTable("columns");
+                    b.ToTable("Columns");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Job", b =>
@@ -214,7 +229,6 @@ namespace KanbanDAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -225,7 +239,7 @@ namespace KanbanDAL.Migrations
 
                     b.HasIndex("ColumnId");
 
-                    b.ToTable("jobs");
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.User", b =>
@@ -235,9 +249,6 @@ namespace KanbanDAL.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("BoardId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -287,8 +298,6 @@ namespace KanbanDAL.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
 
                     b.HasIndex("JobId");
 
@@ -440,6 +449,21 @@ namespace KanbanDAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BoardUser", b =>
+                {
+                    b.HasOne("KanbanDAL.Entities.Board", null)
+                        .WithMany()
+                        .HasForeignKey("BoardsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KanbanDAL.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("KanbanDAL.Entities.Column", b =>
                 {
                     b.HasOne("KanbanDAL.Entities.Board", null)
@@ -460,10 +484,6 @@ namespace KanbanDAL.Migrations
 
             modelBuilder.Entity("KanbanDAL.Entities.User", b =>
                 {
-                    b.HasOne("KanbanDAL.Entities.Board", null)
-                        .WithMany("Users")
-                        .HasForeignKey("BoardId");
-
                     b.HasOne("KanbanDAL.Entities.Job", null)
                         .WithMany("Users")
                         .HasForeignKey("JobId");
@@ -523,8 +543,6 @@ namespace KanbanDAL.Migrations
             modelBuilder.Entity("KanbanDAL.Entities.Board", b =>
                 {
                     b.Navigation("Columns");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Column", b =>
