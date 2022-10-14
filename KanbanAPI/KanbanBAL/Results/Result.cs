@@ -87,6 +87,17 @@ namespace KanbanBAL.Results
             return result;
         }
 
+        public static Result Forbidden(string message)
+        {
+            var result = new Result
+            {
+                CodeResult = ResultCode.Forbidden,
+                Errors = new List<string> { message },
+                Code = 403
+            };
+            return result;
+        }
+
         public static Result<T> Forbidden<T>(string message)
         {
             var result = new Result<T>

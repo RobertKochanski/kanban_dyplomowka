@@ -51,10 +51,10 @@ namespace KanbanAPI.Controllers
         //    return await _mediator.Send(command).Process();
         //}
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-        //    return await _mediator.Send(new DeleteBoardCommand(id)).Process();
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            return await _mediator.Send(new DeleteBoardCommand(id, User.Identity.Name)).Process();
+        }
     }
 }
