@@ -38,11 +38,13 @@ namespace KanbanBAL.CQRS.Queries.Boards
 
         public async Task<Result<List<ResponseBoardModel>>> Handle(GetUserBoardsQuery request, CancellationToken cancellationToken)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
+
             var boardsQuery = _context.Boards
                 .Include(x => x.Columns)
                     .ThenInclude(x => x.Jobs)
                 .Include(x => x.Members)
-                .Where(x => x.OwnerId == request.UserId)
+                .Where(x => x.Members.Contains(user))
                 .Select(x => new ResponseBoardModel()
                 {
                     Id = x.Id,
