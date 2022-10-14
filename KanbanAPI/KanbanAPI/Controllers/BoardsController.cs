@@ -44,12 +44,13 @@ namespace KanbanAPI.Controllers
             return await _mediator.Send(command).Process();
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(Guid id, UpdateBoardCommand command)
-        //{
-        //    command.Id = id;
-        //    return await _mediator.Send(command).Process();
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, UpdateBoardCommand command)
+        {
+            command.Id = id;
+            command.UserId = User.Identity.Name;
+            return await _mediator.Send(command).Process();
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)

@@ -13,33 +13,35 @@ using System.Threading.Tasks;
 
 namespace KanbanBAL.CQRS.Commands.Boards
 {
-    public class DeleteBoardCommand : IRequest<Result>
+    public class UpdateBoardCommand : IRequest<Result>
     {
         [JsonIgnore]
         public Guid Id { get; set; }
         [JsonIgnore]
         public string? UserId { get; set; }
+        public string Name { get; set; }
 
-        public DeleteBoardCommand(Guid id, string userId)
+        public UpdateBoardCommand(string name, Guid id, string userId)
         {
+            Name = name;
             Id = id;
             UserId = userId;
         }
     }
 
-    public class DeleteBoardCommandHandler : IRequestHandler<DeleteBoardCommand, Result>
+    public class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCommand, Result>
     {
         private readonly KanbanDbContext _context;
-        private readonly ILogger<DeleteBoardCommandHandler> _logger;
+        private readonly ILogger<UpdateBoardCommandHandler> _logger;
 
-        public DeleteBoardCommandHandler(KanbanDbContext context, ILogger<DeleteBoardCommandHandler> logger)
+        public UpdateBoardCommandHandler(KanbanDbContext context, ILogger<UpdateBoardCommandHandler> logger)
         {
             _context = context;
             _logger = logger;
-            _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(DeleteBoardCommandHandler)}' has been created.");
+            _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(UpdateBoardCommandHandler)}' has been created.");
         }
 
-        public async Task<Result> Handle(DeleteBoardCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateBoardCommand request, CancellationToken cancellationToken)
         {
             var board = await _context.Boards.FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -57,7 +59,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
 
             try
             {
-                _context.Boards.Remove(board);
+                board.Name = request.Name;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -65,7 +67,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 List<string> errors = new List<string>();
                 errors.Add(ex.Message);
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<ResponseBoardModel>(errors);
+                return Result.BadRequest(errors);
             }
 
             return Result.Ok();

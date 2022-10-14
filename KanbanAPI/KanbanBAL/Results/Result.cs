@@ -39,6 +39,17 @@ namespace KanbanBAL.Results
             return result;
         }
 
+        public static Result BadRequest(List<string> messages)
+        {
+            var result = new Result
+            {
+                CodeResult = ResultCode.BadRequest,
+                Errors = messages,
+                Code = 400
+            };
+            return result;
+        }
+
         public static Result<T> BadRequest<T>(List<string> messages)
         {
             var result = new Result<T>
