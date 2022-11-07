@@ -1,13 +1,13 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL;
-using KanbanDAL.Entities;
+using KanbanDAL.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KanbanBAL.CQRS.Queries.Jobs
 {
-    public class GetJobDetailsQueryHandler : IRequestHandler<GetJobDetailsQuery, Result<Job>>
+    public class GetJobDetailsQueryHandler : IRequestHandler<GetJobDetailsQuery, Result<ResponseJobModel>>
     {
         private readonly KanbanDbContext _context;
         private readonly ILogger<GetJobDetailsQueryHandler> _logger;
@@ -19,12 +19,20 @@ namespace KanbanBAL.CQRS.Queries.Jobs
             _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(GetJobDetailsQueryHandler)}' has been created.");
         }
 
-        public async Task<Result<Job>> Handle(GetJobDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ResponseJobModel>> Handle(GetJobDetailsQuery request, CancellationToken cancellationToken)
         {
             var query = _context.Jobs
+                .Include(x => x.Users)
+                .Select(x => new ResponseJobModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    UserEmails = x.Users.Select(u => u.Email).ToList()
+                })
                 .AsNoTracking();
 
-            Job? job = new Job();
+            ResponseJobModel? job = new ResponseJobModel();
             var errors = new List<string>();
 
             try
@@ -35,12 +43,12 @@ namespace KanbanBAL.CQRS.Queries.Jobs
             {
                 errors.Add(e.Message);
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<Job>(errors);
+                return Result.BadRequest<ResponseJobModel>(errors);
             }
 
             if (job == null)
             {
-                return Result.NotFound<Job>(request.Id);
+                return Result.NotFound<ResponseJobModel>(request.Id);
             }
 
             return Result.Ok(job);

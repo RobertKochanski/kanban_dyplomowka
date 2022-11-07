@@ -1,17 +1,10 @@
-﻿using KanbanBAL.CQRS.Queries.Boards;
-using KanbanBAL.Results;
-using KanbanDAL.Entities;
+﻿using KanbanBAL.Results;
 using KanbanDAL.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanBAL.CQRS.Queries.Jobs
 {
-    public class GetJobDetailsQuery : IRequest<Result<Job>>
+    public class GetJobDetailsQuery : IRequest<Result<ResponseJobModel>>
     {
         public Guid Id { get; set; }
 
