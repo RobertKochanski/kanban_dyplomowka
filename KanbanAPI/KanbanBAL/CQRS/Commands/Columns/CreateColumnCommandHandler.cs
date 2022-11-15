@@ -24,7 +24,7 @@ namespace KanbanBAL.CQRS.Commands.Columns
             if (string.IsNullOrEmpty(request.Name))
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Complete the field");
-                return Result.BadRequest($"[{DateTime.UtcNow}] Complete the field");
+                return Result.BadRequest($"Complete the field");
             }
 
             var board = await _context.Boards.FirstOrDefaultAsync(x => x.Id == request.BoardId);
@@ -32,7 +32,7 @@ namespace KanbanBAL.CQRS.Commands.Columns
             if (board == null)
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Something goes wrong with this board");
-                return Result.BadRequest($"[{DateTime.UtcNow}] Something goes wrong with this board");
+                return Result.BadRequest($"Something goes wrong with this board");
             }
 
             var column = new Column()

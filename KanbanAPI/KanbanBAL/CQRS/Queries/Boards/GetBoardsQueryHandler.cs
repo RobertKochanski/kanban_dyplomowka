@@ -44,12 +44,11 @@ namespace KanbanBAL.CQRS.Queries.Boards
             var errors = new List<string>();
             try
             {
-                boards = await boardsQuery
-                    .ToListAsync(cancellationToken);
+                boards = await boardsQuery.ToListAsync(cancellationToken);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                errors.Add(e.Message);
+                errors.Add(ex.Message);
                 _logger.LogError(string.Join(Environment.NewLine, errors));
                 return Result.BadRequest<List<ResponseBoardModel>>(errors);
             }

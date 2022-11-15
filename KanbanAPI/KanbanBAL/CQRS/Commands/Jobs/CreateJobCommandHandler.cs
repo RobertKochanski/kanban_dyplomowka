@@ -24,7 +24,7 @@ namespace KanbanBAL.CQRS.Commands.Jobs
             if (string.IsNullOrEmpty(request.Name))
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Name field can not be null");
-                return Result.BadRequest($"[{DateTime.UtcNow}] Name field can not be null");
+                return Result.BadRequest($"Name field can not be null");
             }
 
             var job = new Job()

@@ -24,7 +24,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
             if (string.IsNullOrEmpty(request.Name))
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Complete the field");
-                return Result.BadRequest($"[{DateTime.UtcNow}] Complete the field");
+                return Result.BadRequest($"Complete the field");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.OwnerId, cancellationToken);
@@ -32,7 +32,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
             if (user == null)
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Something goes wrong");
-                return Result.BadRequest($"[{DateTime.UtcNow}] Something goes wrong");
+                return Result.BadRequest($"Something goes wrong");
             }
 
             if (request.InitialSettings == false)
