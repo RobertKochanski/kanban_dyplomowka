@@ -26,14 +26,14 @@ namespace KanbanBAL.CQRS.Commands.Users
 
             if (user == null)
             {
-                _logger.LogError($"[{DateTime.UtcNow}] Can not find user with Email {request.Email}");
-                return Result.BadRequest<string>(new List<string> { $"[{DateTime.UtcNow}] Can not find user with Email {request.Email}" });
+                _logger.LogError($"[{DateTime.UtcNow}] Wrong email or password!");
+                return Result.BadRequest<string>(new List<string> { $"Wrong email or password!" });
             }
 
             if (!await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Wrong email or password!");
-                return Result.BadRequest<string>(new List<string> { $"[{DateTime.UtcNow}] Wrong email or password!" });
+                return Result.BadRequest<string>(new List<string> { $"Wrong email or password!" });
             }
 
             var token = _token.CreateToken(user);
