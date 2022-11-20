@@ -6,9 +6,9 @@ namespace KanbanDAL.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<Column>? Columns { get; set; }
+        public IEnumerable<ResponseColumnModel>? Columns { get; set; }
 
         public string OwnerId { get; set; }
-        public IEnumerable<ResponseMemberModel> Members { get; set; }
+        public IEnumerable<ResponseUserModel> Members { get; set; }
     }
 }

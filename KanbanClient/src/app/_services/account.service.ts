@@ -1,42 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators'
-import { User } from '../_models/user';
+import { environment } from 'src/environments/environment';
+import { UserData } from '../_models/userData';
+import { UserResponse } from '../_models/userResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = "https://localhost:7197/api/";
-  private currentUserSource = new ReplaySubject<User>(1);
+  baseUrl = environment.apiUrl;
+  private currentUserSource = new ReplaySubject<UserData>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(model: any){
     return this.http.post(this.baseUrl + 'Users/login', model).pipe(
-      map((response: User) => {
+      map((response: UserResponse) => {
         const user = response;
         if(user){
-          this.setCurrentUser(user);
+          this.setCurrentUser(user.data);
         }
+        return user;
       })
     );
   }
 
   register(model: any){
     return this.http.post(this.baseUrl + 'Users/register', model).pipe(
-      map((user: User) => {
+      map((user: UserResponse) => {
         if(user){
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.currentUserSource.next(user.data);
         }
       })
     )
   }
 
-  setCurrentUser(user: User){
+  setCurrentUser(user: UserData){
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }

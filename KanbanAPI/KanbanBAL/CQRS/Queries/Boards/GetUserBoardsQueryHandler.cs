@@ -1,5 +1,6 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL;
+using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,19 +27,32 @@ namespace KanbanBAL.CQRS.Queries.Boards
             var boardsQuery = _context.Boards
                 .Include(x => x.Columns)
                     .ThenInclude(x => x.Jobs)
+                        .ThenInclude(x => x.Users)
                 .Include(x => x.Members)
                 .Where(x => x.Members.Contains(user))
                 .Select(x => new ResponseBoardModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Columns = x.Columns,
+                    Columns = x.Columns.Select(y => new ResponseColumnModel
+                    {
+                        Id = y.Id,
+                        BoardId = y.BoardId,
+                        Name = y.Name,
+                        Jobs = y.Jobs.Select(z => new ResponseJobModel
+                        {
+                            Id = z.Id,
+                            Name = z.Name,
+                            Description = z.Description,
+                            UserEmails = z.Users.Select(em => em.Email)
+                        })
+                    }),
                     OwnerId = x.OwnerId,
-                    Members = x.Members.Select(y => new ResponseMemberModel
+                    Members = x.Members.Select(y => new ResponseUserModel
                     {
                         Id = y.Id,
                         Email = y.Email,
-                        UserName = y.UserName
+                        Username = y.UserName
                     })
                 })
                 .AsNoTracking();

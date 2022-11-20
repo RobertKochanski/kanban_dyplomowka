@@ -1,13 +1,14 @@
 ﻿using KanbanBAL.Authentication;
 using KanbanBAL.Results;
 using KanbanDAL.Entities;
+using KanbanDAL.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace KanbanBAL.CQRS.Commands.Users
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<string>>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<ResponseUserModel>>
     {
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
@@ -21,7 +22,7 @@ namespace KanbanBAL.CQRS.Commands.Users
             _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(RegisterUserCommandHandler)}' has been created.");
         }
 
-        public async Task<Result<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ResponseUserModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             List<string> errors = new List<string>();
 
@@ -51,22 +52,29 @@ namespace KanbanBAL.CQRS.Commands.Users
                 UserName = request.UserName
             };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var created = await _userManager.CreateAsync(user, request.Password);
 
-            if (!result.Succeeded)
+            if (!created.Succeeded)
             {
-                errors.AddRange(result.Errors.Select(x => x.Description).ToList());
+                errors.AddRange(created.Errors.Select(x => x.Description).ToList());
             }
 
             if (errors.Count > 0)
             {
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<string>(errors);
+                return Result.BadRequest<ResponseUserModel>(errors);
             }
 
             var token = _tokenGenerator.CreateToken(user);
 
-            return Result.Ok(token);
+            var result = new ResponseUserModel()
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                Token = token,
+            };
+
+            return Result.Ok(result);
         }
     }
 }

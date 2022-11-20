@@ -1,0 +1,31 @@
+<div class="container">
+<h2 class="text-center">You are a member of the boards:</h2>
+
+<div *ngFor="let board of boards" class="mt-2">
+    <ul class="list-group">
+        <a routerLink="/boards/{{board.id}}" routerLinkActive="active">
+            <li class="list-group-item list-group-item-primary">
+                Name: "{{board.name}}", Members: {{board.members.length}}
+            </li>
+        </a>
+    </ul>
+</div>
+
+<!-- <ul class="list list-inline list-group">
+    <li *ngFor="let board of boards" class="d-flex justify-content-between">
+        <div class="d-flex flex-row align-items-center">
+            <div class="ms-2">
+                <h6 class="mb-0"><b>"{{board.name | titlecase}}"</b></h6>
+                <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                    <div><i class="fa fa-calendar-o"></i><span class="ms-2">ToDo: created date</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+            <div class="d-flex flex-column me-2">
+                Members: {{board.members.length}}
+            </div>
+                <i class="fa fa-ellipsis-h"></i>
+        </div>
+    </li>
+</ul> -->

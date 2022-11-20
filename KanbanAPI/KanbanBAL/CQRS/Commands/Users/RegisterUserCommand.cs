@@ -1,9 +1,10 @@
 ﻿using KanbanBAL.Results;
+using KanbanDAL.Models;
 using MediatR;
 
 namespace KanbanBAL.CQRS.Commands.Users
 {
-    public class RegisterUserCommand : IRequest<Result<string>>
+    public class RegisterUserCommand : IRequest<Result<ResponseUserModel>>
     {
         public string UserName { get; set; }
         public string Email { get; set; }
