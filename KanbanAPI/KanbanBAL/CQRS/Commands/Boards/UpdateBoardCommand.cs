@@ -9,14 +9,14 @@ namespace KanbanBAL.CQRS.Commands.Boards
         [JsonIgnore]
         public Guid Id { get; set; }
         [JsonIgnore]
-        public string? UserId { get; set; }
+        public string? UserEmail { get; set; }
         public string Name { get; set; }
 
-        public UpdateBoardCommand(string name, Guid id, string userId)
+        public UpdateBoardCommand(string name, Guid id, string userEmail)
         {
             Name = name;
             Id = id;
-            UserId = userId;
+            UserEmail = userEmail;
         }
     }
 }

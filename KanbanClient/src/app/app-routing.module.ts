@@ -5,6 +5,7 @@ import { BoardListComponent } from './boards/board-list/board-list.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { HomeComponent } from './home/home.component';
+import { InvitationsComponent } from './invitations/invitations.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     children: [
       {path: 'boards', component: BoardListComponent},
       {path: 'boards/:id', component: BoardDetailComponent},
+      {path: 'invitations', component: InvitationsComponent},
     ]
   },
   {path: 'server-error', component: ServerErrorComponent},

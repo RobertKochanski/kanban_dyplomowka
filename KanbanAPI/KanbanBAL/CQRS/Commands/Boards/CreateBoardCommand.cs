@@ -9,12 +9,12 @@ namespace KanbanBAL.CQRS.Commands.Boards
         public string Name { get; set; }
         public bool InitialSettings { get; set; }
         [JsonIgnore]
-        public string? OwnerId { get; set; }
+        public string? OwnerEmail { get; set; }
 
-        public CreateBoardCommand(string name, string ownerId, bool initialSettings)
+        public CreateBoardCommand(string name, string ownerEmail, bool initialSettings)
         {
             Name = name;
-            OwnerId = ownerId;
+            OwnerEmail = ownerEmail;
             InitialSettings = initialSettings;
         }
     }

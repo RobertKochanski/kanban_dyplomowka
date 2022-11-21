@@ -69,6 +69,7 @@ namespace KanbanBAL.CQRS.Commands.Users
 
             var result = new ResponseUserModel()
             {
+                Id = user.Id,
                 Username = user.UserName,
                 Email = user.Email,
                 Token = token,

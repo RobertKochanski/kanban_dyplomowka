@@ -27,7 +27,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 return Result.BadRequest($"Complete the field");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.OwnerId, cancellationToken);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.OwnerEmail, cancellationToken);
 
             if (user == null)
             {
@@ -40,7 +40,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 var board = new Board()
                 {
                     Name = request.Name,
-                    OwnerId = request.OwnerId,
+                    OwnerEmail = request.OwnerEmail,
                     Members = new List<User>()
                 };
 
@@ -68,7 +68,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 var board = new Board()
                 {
                     Name = request.Name,
-                    OwnerId = request.OwnerId,
+                    OwnerEmail = request.OwnerEmail,
                     Members = new List<User>(),
                     Columns = new List<Column>()
                     {

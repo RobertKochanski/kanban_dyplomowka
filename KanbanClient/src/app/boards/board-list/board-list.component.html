@@ -1,14 +1,76 @@
-<div class="container">
-<h2 class="text-center">You are a member of the boards:</h2>
+<!-- <div class="container">
 
-<div *ngFor="let board of boards" class="mt-2">
-    <ul class="list-group">
-        <a routerLink="/boards/{{board.id}}" routerLinkActive="active">
-            <li class="list-group-item list-group-item-primary">
-                Name: "{{board.name}}", Members: {{board.members.length}}
-            </li>
-        </a>
-    </ul>
+    <ng-container *ngIf="!createMode">
+    <div class="text-center mb-2">
+        <button class="btn btn-success btn-lg me-2" (click)="createBoardToggle()">Create</button>
+        <button class="btn btn-secondary btn-lg" (click)="reload()">Reload</button>
+    </div>
+
+    <h2 class="fs-1 text-center text-primary">You are a member of the boards:</h2>
+
+        <div *ngFor="let board of boards" class="mt-2">
+            <ul class="list-group">
+                <a routerLink="/boards/{{board.id}}" routerLinkActive="active">
+                    <li class="list-group-item list-group-item-primary">
+                        Name: "{{board.name}}", Members: {{board.members.length}}
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </ng-container>
+
+    <div *ngIf="createMode" class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <app-board-create (cancelCreateBoard)="cancelCreateBoard($event)"></app-board-create>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container">
+    <ng-container *ngIf="!createMode">
+
+    <div class="text-center mb-2">
+        <button class="btn btn-success btn-lg me-2" (click)="createBoardToggle()">Create</button>
+        <button class="btn btn-secondary btn-lg" (click)="reload()">Reload</button>
+    </div>
+
+    <h2 class="fs-1 text-center text-primary">You are a member of the boards:</h2>
+
+    <table class="table table-striped text-center align-middle">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Created (ToDo)</th>
+                <th scope="col">Members</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let board of boards">
+                <th routerLink="/boards/{{board.id}}">{{board.name}}</th>
+                <td routerLink="/boards/{{board.id}}">{{board.ownerEmail}}</td>
+                <td routerLink="/boards/{{board.id}}">Created</td>
+                <td routerLink="/boards/{{board.id}}">{{board.members.length}}</td>
+                <td *ngIf="accountService.currentUser$ | async as user">
+                    <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-primary"><i class="fa fa-cog"></i></button>
+                    <button class="btn btn-outline-primary m-1"><i class="fa fa-users" aria-hidden="true"></i></button>
+                    <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-danger" (click)="deleteBoard(board.id)"><i class="fa fa-trash"></i></button>  
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </ng-container>
+
+    <div *ngIf="createMode" class="container">
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <app-board-create (cancelCreateBoard)="cancelCreateBoard($event)"></app-board-create>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- <ul class="list list-inline list-group">

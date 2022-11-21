@@ -6,6 +6,6 @@ export interface BoardData{
     id: string
     name: string
     columns: ColumnData[]
-    ownerId: string
+    ownerEmail: string
     members: UserData[]
 }

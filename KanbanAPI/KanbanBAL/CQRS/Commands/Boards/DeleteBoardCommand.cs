@@ -9,12 +9,12 @@ namespace KanbanBAL.CQRS.Commands.Boards
         [JsonIgnore]
         public Guid Id { get; set; }
         [JsonIgnore]
-        public string? UserId { get; set; }
+        public string? UserEmail { get; set; }
 
-        public DeleteBoardCommand(Guid id, string userId)
+        public DeleteBoardCommand(Guid id, string userEmail)
         {
             Id = id;
-            UserId = userId;
+            UserEmail = userEmail;
         }
     }
 }

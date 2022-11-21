@@ -29,7 +29,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 return Result.NotFound(request.Id);
             }
 
-            if (board.OwnerId != request.UserId)
+            if (board.OwnerEmail != request.UserEmail)
             {
                 _logger.LogError("You have not permission to delete this board");
                 return Result.Forbidden("You have not permission to delete this board");

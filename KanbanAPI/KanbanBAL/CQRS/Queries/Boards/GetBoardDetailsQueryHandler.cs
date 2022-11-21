@@ -10,9 +10,9 @@ namespace KanbanBAL.CQRS.Queries.Boards
     public class GetBoardDetailsQueryHandler : IRequestHandler<GetBoardDetailsQuery, Result<ResponseBoardModel>>
     {
         private readonly KanbanDbContext _context;
-        private readonly ILogger<GetBoardsQueryHandler> _logger;
+        private readonly ILogger<GetBoardDetailsQueryHandler> _logger;
 
-        public GetBoardDetailsQueryHandler(KanbanDbContext context, ILogger<GetBoardsQueryHandler> logger)
+        public GetBoardDetailsQueryHandler(KanbanDbContext context, ILogger<GetBoardDetailsQueryHandler> logger)
         {
             _context = context;
             _logger = logger;
@@ -42,7 +42,7 @@ namespace KanbanBAL.CQRS.Queries.Boards
                             UserEmails = z.Users.Select(em => em.Email)
                         })
                     }),
-                    OwnerId = x.OwnerId,
+                    OwnerEmail = x.OwnerEmail,
                     Members = x.Members.Select(y => new ResponseUserModel
                     {
                         Email = y.Email,

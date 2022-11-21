@@ -16,6 +16,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { BoardCreateComponent } from './boards/board-create/board-create.component';
+import { InvitationsComponent } from './invitations/invitations.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     BoardDetailComponent,
     NotFoundComponent,
     ServerErrorComponent,
+    BoardCreateComponent,
+    InvitationsComponent,
   ],
   imports: [
     BrowserModule,

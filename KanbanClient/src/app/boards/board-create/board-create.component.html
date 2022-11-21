@@ -1,0 +1,33 @@
+<form #registerForm="ngForm" (ngSubmit)="createBoard()" autocomplete="off">
+    <h2 class="text-center text-primary">Create Board</h2>
+    <hr>
+    <div class="form-group">
+        <input type="text" class="form-control" name="name" [(ngModel)]="model.name" placeholder="Board Name">
+        <div class="form-check mt-1 ms-1">
+            <input class="form-check-input" name="initialSettings" [(ngModel)]="model.initialSettings" type="checkbox" id="checkbox">
+            <label class="form-check-label" for="checkbox">
+                Initial settings
+            </label>
+        </div>
+    </div>
+    
+    <div class="form-group text-center">
+        <button class="btn btn-success me-2 mt-1" type="submit">Create</button>
+        <button class="btn btn-secondary mt-1" (click)="cancel()" type="button">Cancel</button>
+    </div>
+
+    <div class="row mt-3" *ngIf="validationErrors.length > 0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+
+    <div class="mt-5 text-success">
+        <h4>Initial settings creates 5 columns:</h4>
+    </div>
+    <div class="text-info">
+        <h4>Backlog, ToDo, In Progress, Testing, Done</h4>
+    </div>
+</form>

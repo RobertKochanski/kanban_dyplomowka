@@ -4,6 +4,7 @@ using KanbanBAL.CQRS.Queries.Boards;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace KanbanAPI.Controllers
 {
@@ -17,12 +18,6 @@ namespace KanbanAPI.Controllers
         public BoardsController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll([FromQuery] GetBoardsQuery query)
-        {
-            return await _mediator.Send(query).Process();
         }
 
         [HttpGet("UserAll")]
@@ -40,7 +35,7 @@ namespace KanbanAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateBoardCommand command)
         {
-            command.OwnerId = User.Identity.Name;
+            command.OwnerEmail = User.FindFirstValue(ClaimTypes.Email);
             return await _mediator.Send(command).Process();
         }
 
@@ -48,14 +43,14 @@ namespace KanbanAPI.Controllers
         public async Task<IActionResult> Put(Guid id, UpdateBoardCommand command)
         {
             command.Id = id;
-            command.UserId = User.Identity.Name;
+            command.UserEmail = User.FindFirstValue(ClaimTypes.Email);
             return await _mediator.Send(command).Process();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return await _mediator.Send(new DeleteBoardCommand(id, User.Identity.Name)).Process();
+            return await _mediator.Send(new DeleteBoardCommand(id, User.FindFirstValue(ClaimTypes.Email))).Process();
         }
     }
 }

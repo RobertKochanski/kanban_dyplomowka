@@ -188,7 +188,7 @@ namespace KanbanDAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("OwnerEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

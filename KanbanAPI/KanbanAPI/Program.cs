@@ -50,7 +50,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddMediatR(typeof(LoginUserCommandHandler));
 builder.Services.AddMediatR(typeof(RegisterUserCommandHandler));
 builder.Services.AddMediatR(typeof(GetBoardDetailsQueryHandler));
-builder.Services.AddMediatR(typeof(GetBoardsQueryHandler));
 builder.Services.AddMediatR(typeof(CreateBoardCommandHandler));
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 

@@ -8,7 +8,7 @@ namespace KanbanDAL.Models
         public string Name { get; set; }
         public IEnumerable<ResponseColumnModel>? Columns { get; set; }
 
-        public string OwnerId { get; set; }
+        public string OwnerEmail { get; set; }
         public IEnumerable<ResponseUserModel> Members { get; set; }
     }
 }
