@@ -40,6 +40,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 var board = new Board()
                 {
                     Name = request.Name,
+                    CreatedAt = DateTime.Now,
                     OwnerEmail = request.OwnerEmail,
                     Members = new List<User>()
                 };
@@ -68,6 +69,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 var board = new Board()
                 {
                     Name = request.Name,
+                    CreatedAt = DateTime.Now,
                     OwnerEmail = request.OwnerEmail,
                     Members = new List<User>(),
                     Columns = new List<Column>()

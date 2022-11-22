@@ -43,7 +43,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Owner</th>
-                <th scope="col">Created (ToDo)</th>
+                <th scope="col">Created</th>
                 <th scope="col">Members</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -52,7 +52,7 @@
             <tr *ngFor="let board of boards">
                 <th routerLink="/boards/{{board.id}}">{{board.name}}</th>
                 <td routerLink="/boards/{{board.id}}">{{board.ownerEmail}}</td>
-                <td routerLink="/boards/{{board.id}}">Created</td>
+                <td routerLink="/boards/{{board.id}}">{{board.createdAt | date}}</td>
                 <td routerLink="/boards/{{board.id}}">{{board.members.length}}</td>
                 <td *ngIf="accountService.currentUser$ | async as user">
                     <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-primary"><i class="fa fa-cog"></i></button>

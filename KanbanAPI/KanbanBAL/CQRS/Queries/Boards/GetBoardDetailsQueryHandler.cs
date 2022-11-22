@@ -29,6 +29,7 @@ namespace KanbanBAL.CQRS.Queries.Boards
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    CreatedAt = x.CreatedAt,
                     Columns = x.Columns.Select(y => new ResponseColumnModel
                     {
                         Id = y.Id,

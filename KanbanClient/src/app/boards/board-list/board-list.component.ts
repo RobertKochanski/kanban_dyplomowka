@@ -29,6 +29,7 @@ export class BoardListComponent implements OnInit {
     if(confirm("Are you sure you want to delete this board?")){
       this.boardService.deleteBoard(id).subscribe(() => {
         this.boards = this.boards.filter(x => x.id !== id);
+        this.toastr.error("Board Deleted")
       })
     }
     

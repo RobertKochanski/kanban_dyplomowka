@@ -24,6 +24,7 @@ export class BoardCreateComponent implements OnInit {
     this.boardSevice.postBoard(this.model).subscribe(response => {
       this.cancel();
       this.boardListComponent.loadBoards();
+      this.toastr.success("Board Created")
     }, error => {
       this.validationErrors = error;
     })

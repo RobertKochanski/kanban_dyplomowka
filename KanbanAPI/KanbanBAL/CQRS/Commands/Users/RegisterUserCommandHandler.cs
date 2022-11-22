@@ -1,9 +1,11 @@
 ﻿using KanbanBAL.Authentication;
 using KanbanBAL.Results;
+using KanbanDAL;
 using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KanbanBAL.CQRS.Commands.Users
@@ -12,12 +14,14 @@ namespace KanbanBAL.CQRS.Commands.Users
     {
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
+        private readonly KanbanDbContext _context;
         private readonly ILogger<RegisterUserCommandHandler> _logger;
 
-        public RegisterUserCommandHandler(ITokenGenerator tokenGenerator, UserManager<User> userManager, ILogger<RegisterUserCommandHandler> logger)
+        public RegisterUserCommandHandler(ITokenGenerator tokenGenerator, UserManager<User> userManager, ILogger<RegisterUserCommandHandler> logger, KanbanDbContext context)
         {
             _tokenGenerator = tokenGenerator;
             _userManager = userManager;
+            _context = context;
             _logger = logger;
             _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(RegisterUserCommandHandler)}' has been created.");
         }

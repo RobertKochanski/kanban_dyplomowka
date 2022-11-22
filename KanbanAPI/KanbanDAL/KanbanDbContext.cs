@@ -35,6 +35,15 @@ namespace KanbanDAL
                 .Property(x => x.Name)
                 .IsRequired();
 
+            // Users
+            modelBuilder.Entity<User>()
+                .Property(x => x.Email)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .HasIndex(x => x.Email)
+                .IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
     }

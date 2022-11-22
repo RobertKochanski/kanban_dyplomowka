@@ -6,6 +6,7 @@ namespace KanbanDAL.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
         public IEnumerable<ResponseColumnModel>? Columns { get; set; }
 
         public string OwnerEmail { get; set; }
