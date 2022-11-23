@@ -14,7 +14,8 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<UserData>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   login(model: any){
     return this.http.post(this.baseUrl + 'Users/login', model).pipe(
@@ -47,5 +48,23 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  currentUser(){
+    let currentUser: UserData;
+
+    if(localStorage.getItem('user') == null){
+      currentUser = {
+        id: null,
+        username: null,
+        email: null,
+        token: null 
+      }
+    }
+    else{
+      currentUser = JSON.parse(localStorage.getItem('user'));
+    }
+
+    return currentUser;
   }
 }

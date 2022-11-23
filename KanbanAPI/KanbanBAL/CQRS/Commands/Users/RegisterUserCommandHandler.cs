@@ -45,9 +45,22 @@ namespace KanbanBAL.CQRS.Commands.Users
                 errors.Add($"Email '{request.Email}' is already taken.");
             }
 
+            var userUsernameCheck = await _userManager.FindByNameAsync(request.UserName);
+
+            if (userUsernameCheck != null)
+            {
+                errors.Add($"Username '{request.UserName}' is already taken.");
+            }
+
             if (request.Password != request.ConfirmPassword)
             {
                 errors.Add("Passwords don't match!");
+            }
+
+            if (errors.Count > 0)
+            {
+                _logger.LogError(string.Join(Environment.NewLine, errors));
+                return Result.BadRequest<ResponseUserModel>(errors);
             }
 
             var user = new User
@@ -55,6 +68,8 @@ namespace KanbanBAL.CQRS.Commands.Users
                 Email = request.Email,
                 UserName = request.UserName
             };
+
+            errors = new List<string>();
 
             var created = await _userManager.CreateAsync(user, request.Password);
 
