@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KanbanDAL.Models
+{
+    public class ReponseInvitationModel
+    {
+        public Guid Id { get; set; }
+        public string UserEmail { get; set; }
+        public string InvitingEmail { get; set; }
+        public DateTime InvitedAt { get; set; }
+        public ResponseBoardModel Board { get; set; }
+    }
+}

@@ -1,1 +1,35 @@
-<p>invitations works!</p>
+<div class="container">
+    
+    <h2 class="text-center text-primary">Your invitations:</h2>
+
+    <ng-container *ngIf="invitations.length !== 0">
+        <table class="table table-striped text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Invited by:</th>
+                    <th scope="col">Board name:</th>
+                    <th scope="col">Board created:</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Invited at:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let invitation of invitations">
+                    <th>{{invitation.invitingEmail}}</th>
+                    <th>{{invitation.board.name | titlecase}}</th>
+                    <th>{{invitation.board.createdAt | date:'medium'}}</th>
+                    <td>
+                        <button class="btn btn-success" (click)="acceptInvitation(invitation.id)">Accept</button>
+                        <button class="btn btn-warning m-1" (click)="rejectInvitation(invitation.id)">Reject</button>
+                    </td>
+                    <th>{{invitation.invitedAt | date:'medium'}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    
+    <div *ngIf="invitations.length === 0" class="text-center text-warning"><h2>There's nothing here</h2></div>
+
+</div>
+
+

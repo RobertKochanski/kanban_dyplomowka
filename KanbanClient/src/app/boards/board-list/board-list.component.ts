@@ -32,7 +32,6 @@ export class BoardListComponent implements OnInit {
         this.toastr.error("Board Deleted")
       })
     }
-    
   }
 
   createBoardToggle(){

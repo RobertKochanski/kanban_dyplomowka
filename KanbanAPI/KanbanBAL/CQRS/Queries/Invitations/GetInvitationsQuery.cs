@@ -1,11 +1,12 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL.Entities;
+using KanbanDAL.Models;
 using MediatR;
 using System.Text.Json.Serialization;
 
 namespace KanbanBAL.CQRS.Queries.Invitations
 {
-    public class GetInvitationsQuery : IRequest<Result<List<Invitation>>>
+    public class GetInvitationsQuery : IRequest<Result<List<ReponseInvitationModel>>>
     {
         [JsonIgnore]
         public string UserId { get; set; }

@@ -4,6 +4,7 @@ using KanbanBAL.CQRS.Queries.Invitations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace KanbanAPI.Controllers
 {
@@ -29,6 +30,7 @@ namespace KanbanAPI.Controllers
         public async Task<IActionResult> Create(CreateInvitationCommand command, Guid BoardId)
         {
             command.BoardId = BoardId;
+            command.InvitingEmail = User.FindFirstValue(ClaimTypes.Email);
             return await _mediator.Send(command).Process();
         }
 

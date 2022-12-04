@@ -4,6 +4,7 @@ using KanbanDAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanDAL.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    partial class KanbanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221204183601_invitationUpdate2")]
+    partial class invitationUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +230,6 @@ namespace KanbanDAL.Migrations
 
                     b.Property<Guid>("BoardId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InvitedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("InvitingEmail")
                         .IsRequired()

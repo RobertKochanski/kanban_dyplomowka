@@ -10,6 +10,8 @@ namespace KanbanBAL.CQRS.Commands.Invitations
         public Guid Id { get; set; }
         [JsonIgnore]
         public Guid BoardId { get; set; }
+        [JsonIgnore]
+        public string? InvitingEmail { get; set; }
         public string UserEmail { get; set; }
     }
 }

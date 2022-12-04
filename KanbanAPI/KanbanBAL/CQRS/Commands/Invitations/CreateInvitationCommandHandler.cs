@@ -66,6 +66,8 @@ namespace KanbanBAL.CQRS.Commands.Invitations
                 Id = request.Id,
                 BoardId = request.BoardId,
                 UserEmail = request.UserEmail,
+                InvitingEmail = request.InvitingEmail,
+                InvitedAt = DateTime.Now,
             };
 
             try

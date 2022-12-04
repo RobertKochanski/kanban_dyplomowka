@@ -4,6 +4,7 @@ using KanbanDAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanDAL.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    partial class KanbanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221204182718_invitationUpdate")]
+    partial class invitationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +231,6 @@ namespace KanbanDAL.Migrations
                     b.Property<Guid>("BoardId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("InvitedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("InvitingEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -241,8 +240,6 @@ namespace KanbanDAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
 
                     b.ToTable("Invitations");
                 });
@@ -503,17 +500,6 @@ namespace KanbanDAL.Migrations
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("KanbanDAL.Entities.Invitation", b =>
-                {
-                    b.HasOne("KanbanDAL.Entities.Board", "Board")
-                        .WithMany()
-                        .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Board");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Job", b =>

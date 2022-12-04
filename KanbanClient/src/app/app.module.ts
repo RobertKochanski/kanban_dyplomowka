@@ -18,6 +18,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { BoardCreateComponent } from './boards/board-create/board-create.component';
 import { InvitationsComponent } from './invitations/invitations.component';
+import { InviteUserDialogComponent } from './boards/board-detail/invite-user-dialog/invite-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { InvitationsComponent } from './invitations/invitations.component';
     ServerErrorComponent,
     BoardCreateComponent,
     InvitationsComponent,
+    InviteUserDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,6 @@ import { InvitationsComponent } from './invitations/invitations.component';
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
-
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

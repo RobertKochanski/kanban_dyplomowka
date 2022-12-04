@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardData } from 'src/app/_models/boardData';
 import { BoardsService } from 'src/app/_services/boards.service';
+// import { Dialog } from '@angular/cdk/dialog';
+import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dialog.component';
 
 @Component({
   selector: 'app-board-detail',
@@ -23,4 +25,7 @@ export class BoardDetailComponent implements OnInit {
     })
   }
 
+  openDialog(){
+    // this.dialog.open(InviteUserDialogComponent);
+  }
 }
