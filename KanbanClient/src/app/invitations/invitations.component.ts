@@ -9,7 +9,7 @@ import { InvitationsService } from '../_services/invitations.service';
   styleUrls: ['./invitations.component.css']
 })
 export class InvitationsComponent implements OnInit {
-  invitations: InvitationData[];
+  invitations: InvitationData[] = [];
 
   constructor(private invitationService: InvitationsService, private toastr: ToastrService) { }
 

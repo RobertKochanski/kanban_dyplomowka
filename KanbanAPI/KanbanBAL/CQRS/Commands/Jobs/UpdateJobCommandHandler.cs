@@ -16,7 +16,7 @@ namespace KanbanBAL.CQRS.Commands.Jobs
         {
             _context = context;
             _logger = logger;
-            _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(CreateJobCommandHandler)}' has been created.");
+            _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(UpdateJobCommandHandler)}' has been created.");
         }
 
         public async Task<Result> Handle(UpdateJobCommand request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ namespace KanbanBAL.CQRS.Commands.Jobs
                 return Result.BadRequest($"Name field can not be null");
             }
 
-            var job = await _context.Jobs.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var job = await _context.Jobs.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == request.Id);
 
             request.UserEmails = request.UserEmails.Distinct().ToList();
             List<User> users = new List<User>();

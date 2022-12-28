@@ -1,6 +1,5 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL;
-using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

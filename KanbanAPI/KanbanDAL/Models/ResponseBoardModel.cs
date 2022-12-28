@@ -1,6 +1,4 @@
-﻿using KanbanDAL.Entities;
-
-namespace KanbanDAL.Models
+﻿namespace KanbanDAL.Models
 {
     public class ResponseBoardModel
     {

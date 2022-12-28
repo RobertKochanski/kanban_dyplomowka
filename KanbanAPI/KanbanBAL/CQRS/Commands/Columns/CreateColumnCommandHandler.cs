@@ -53,7 +53,7 @@ namespace KanbanBAL.CQRS.Commands.Columns
             {
                 errors.Add(ex.Message);
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<Board>(errors);
+                return Result.BadRequest(errors);
             }
             
             return Result.Ok();

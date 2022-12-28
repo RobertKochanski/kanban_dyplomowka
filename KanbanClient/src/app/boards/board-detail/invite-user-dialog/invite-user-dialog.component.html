@@ -1,1 +1,18 @@
-<p>invite-user-dialog works!</p>
+<mat-dialog-content>
+    <h2 class="text-center text-primary">Invite new member.</h2>
+    <hr>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="d-flex justify-content-center w-100">
+        <form #createJobForm="ngForm" (ngSubmit)="sendInvitation()" autocomplete="off">
+            <div class="form-group mb-1">
+                <input name="Email" [(ngModel)]="model.UserEmail" type="text" placeholder="User Email">
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-success me-2 mt-1" type="submit" mat-dialog-close>Send</button>
+                <button class="btn btn-secondary mt-1" (click)="close()" type="button" mat-dialog-close>Close</button>
+            </div>
+        </form>
+    </div>
+</mat-dialog-actions>

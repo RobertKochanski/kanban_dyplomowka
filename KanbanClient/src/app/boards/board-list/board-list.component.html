@@ -1,33 +1,3 @@
-<!-- <div class="container">
-
-    <ng-container *ngIf="!createMode">
-    <div class="text-center mb-2">
-        <button class="btn btn-success btn-lg me-2" (click)="createBoardToggle()">Create</button>
-        <button class="btn btn-secondary btn-lg" (click)="reload()">Reload</button>
-    </div>
-
-    <h2 class="fs-1 text-center text-primary">You are a member of the boards:</h2>
-
-        <div *ngFor="let board of boards" class="mt-2">
-            <ul class="list-group">
-                <a routerLink="/boards/{{board.id}}" routerLinkActive="active">
-                    <li class="list-group-item list-group-item-primary">
-                        Name: "{{board.name}}", Members: {{board.members.length}}
-                    </li>
-                </a>
-            </ul>
-        </div>
-    </ng-container>
-
-    <div *ngIf="createMode" class="container">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <app-board-create (cancelCreateBoard)="cancelCreateBoard($event)"></app-board-create>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="container">
     <ng-container *ngIf="!createMode">
 
@@ -56,7 +26,7 @@
                 <td routerLink="/boards/{{board.id}}">{{board.members.length}}</td>
                 <td *ngIf="accountService.currentUser$ | async as user">
                     <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-primary"><i class="fa fa-cog"></i></button>
-                    <button class="btn btn-outline-primary m-1"><i class="fa fa-users" aria-hidden="true"></i></button>
+                    <button class="btn btn-outline-primary m-1" (click)="openAssignedMembersDialog(board)"><i class="fa fa-users" aria-hidden="true"></i></button>
                     <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-danger" (click)="deleteBoard(board.id)"><i class="fa fa-trash"></i></button>  
                 </td>
             </tr>
@@ -72,22 +42,3 @@
         </div>
     </div>
 </div>
-
-<!-- <ul class="list list-inline list-group">
-    <li *ngFor="let board of boards" class="d-flex justify-content-between">
-        <div class="d-flex flex-row align-items-center">
-            <div class="ms-2">
-                <h6 class="mb-0"><b>"{{board.name | titlecase}}"</b></h6>
-                <div class="d-flex flex-row mt-1 text-black-50 date-time">
-                    <div><i class="fa fa-calendar-o"></i><span class="ms-2">ToDo: created date</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <div class="d-flex flex-column me-2">
-                Members: {{board.members.length}}
-            </div>
-                <i class="fa fa-ellipsis-h"></i>
-        </div>
-    </li>
-</ul> -->

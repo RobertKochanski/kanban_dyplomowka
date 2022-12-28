@@ -11,14 +11,13 @@ export class AuthGuard implements CanActivate {
   constructor(private accountService: AccountService, private toastr: ToastrService, private router: Router){}
 
   canActivate(): boolean {
-    let dupa = this.accountService.currentUser();
+    let user = this.accountService.currentUser();
 
-    if(dupa.token != null){
+    if(user.token != null){
       return true;
     }
 
-    this.toastr.error("You shall not pass");
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/not-found');
     return false;
   }
 }

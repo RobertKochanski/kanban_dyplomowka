@@ -2,8 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardData } from 'src/app/_models/boardData';
 import { BoardsService } from 'src/app/_services/boards.service';
-// import { Dialog } from '@angular/cdk/dialog';
 import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { InvitationsService } from 'src/app/_services/invitations.service';
+import { ToastrService } from 'ngx-toastr';
+import { ColumnData } from 'src/app/_models/columnData';
+import { UserData } from 'src/app/_models/userData';
+import { JobData } from 'src/app/_models/jobData';
+import { ColumnsService } from 'src/app/_services/columns.service';
+import { CreateColumnDialogComponent } from './create-column-dialog/create-column-dialog.component';
+import { JobsService } from 'src/app/_services/jobs.service';
+import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
+import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.component';
+import { JobDetailsDialogComponent } from './job-details-dialog/job-details-dialog.component';
+import { AssignedMembersDialogComponent } from './assigned-members-dialog/assigned-members-dialog.component';
 
 @Component({
   selector: 'app-board-detail',
@@ -12,20 +24,156 @@ import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dial
 })
 export class BoardDetailComponent implements OnInit {
   board: BoardData;
+  columns: ColumnData[];
+  members: UserData[];
 
-  constructor(private boardService: BoardsService, private route: ActivatedRoute) { }
+  constructor(private boardService: BoardsService,
+    private columnService: ColumnsService,
+    private jobService: JobsService,
+    private invitationService: InvitationsService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private toastr: ToastrService)
+    { }
 
   ngOnInit(): void {
-    this.loadMember();
+    this.loadBoard();
   }
 
-  loadMember(){
+  loadBoard(){
     this.boardService.getBoard(this.route.snapshot.paramMap.get('id')).subscribe(board => {
       this.board = board.data;
+      this.columns = this.board.columns;
+      this.members = this.board.members;
     })
   }
 
-  openDialog(){
-    // this.dialog.open(InviteUserDialogComponent);
+  // Invitations
+  openInvitationDialog(){
+    const dialogConfig = new MatDialogConfig(); 
+    
+    const dialogRef = this.dialog.open(InviteUserDialogComponent, dialogConfig);
+    
+    dialogRef.afterClosed().subscribe(data => {
+      if(data){
+        this.invitationService.postInvitation(data, this.board.id).subscribe(response => {
+          this.toastr.info("Sent an invitation");
+        }, error => {
+          this.toastr.error(error);
+        });
+      }
+
+      }, error => {
+        this.toastr.error(error);
+      }
+    );
+  }
+
+  // Columns
+  openCreateColumnDialog(){
+    const dialogConfig = new MatDialogConfig(); 
+    
+    const dialogRef = this.dialog.open(CreateColumnDialogComponent, dialogConfig);
+    
+    dialogRef.afterClosed().subscribe(data => {
+      if(data){
+        this.columnService.postColumn(data, this.board.id).subscribe(response => {
+          this.loadBoard();
+          this.toastr.success("Column created");
+        }, error => {
+          this.toastr.error(error);
+        });
+      }
+
+      }, error => {
+        this.toastr.error(error);
+      }
+    );    
+  }
+
+  deleteColumn(id: any){
+    if(confirm("Are you sure you want to delete this column? Each task will also be deleted")){
+      this.columnService.deleteColumn(id).subscribe(() => {
+        this.columns = this.columns.filter(x => x.id !== id);
+        this.toastr.error("Column Deleted")
+      })
+    }
+  }
+
+  // Jobs
+  openCreateJobDialog(columnId: any){
+    const dialogRef = this.dialog.open(CreateJobDialogComponent, {
+      height: '400px',
+      width: '300px',
+      data: this.members,
+    });
+    
+    dialogRef.afterClosed().subscribe(data => {
+      if(data){
+        this.jobService.postJob(data, columnId).subscribe(response => {
+          this.loadBoard();
+          this.toastr.success("Task created");
+        }, error => {
+          this.toastr.error(error);
+        });
+      }
+
+      }, error => {
+        this.toastr.error(error);
+      }
+    );    
+  }
+
+  openEditJobDialog(job: any){    
+    const dialogRef = this.dialog.open(EditJobDialogComponent, {
+      height: '600px',
+      width: '400px',
+      data: [job, this.members],
+    });
+    
+    dialogRef.afterClosed().subscribe(data => {
+      if(data){
+        this.jobService.putJob(data, job.id).subscribe(response => {
+          this.loadBoard();
+          this.toastr.success("Task updated");
+        }, error => {
+          this.toastr.error(error);
+        });
+      } else {
+        this.loadBoard();
+      }
+
+      }, error => {
+        this.toastr.error(error);
+      }
+    );    
+  }
+
+  openDetailsJobDialog(job: any){
+    this.dialog.open(JobDetailsDialogComponent, {
+      height: '750px',
+      width: '600px',
+      data: job,
+    });
+  }
+
+  deleteJob(id: any){
+    if(confirm("Are you sure you want to delete this task?")){
+      this.jobService.deleteJob(id).subscribe(() => {
+        this.loadBoard();
+        this.toastr.error("Task Deleted")
+      }, error => {
+        this.toastr.error(error);
+      })
+    }
+  }
+
+  // Members
+  openAssignedMembersDialog(job: any){
+    this.dialog.open(AssignedMembersDialogComponent, {
+      height: '400px',
+      width: '300px',
+      data: job,
+    });
   }
 }

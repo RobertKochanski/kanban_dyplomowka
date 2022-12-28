@@ -17,6 +17,7 @@ namespace KanbanDAL
         public DbSet<Column> Columns { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,10 @@ namespace KanbanDAL
             modelBuilder.Entity<Column>()
                 .Property(x => x.Name)
                 .IsRequired();
+
+            modelBuilder.Entity<Column>()
+                .HasIndex(x => x.Name)
+                .IsUnique();
 
             // Jobs
             modelBuilder.Entity<Job>()
@@ -43,6 +48,23 @@ namespace KanbanDAL
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.Email)
                 .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .Property(x => x.UserName)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .HasIndex(x => x.UserName)
+                .IsUnique();
+
+            // Comments
+            modelBuilder.Entity<Comment>()
+                .Property(x => x.Text)
+                .IsRequired();
+
+            modelBuilder.Entity<Comment>()
+                .Property(x => x.Creator)
+                .IsRequired();
 
             base.OnModelCreating(modelBuilder);
         }

@@ -5,7 +5,6 @@ using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KanbanBAL.CQRS.Commands.Users

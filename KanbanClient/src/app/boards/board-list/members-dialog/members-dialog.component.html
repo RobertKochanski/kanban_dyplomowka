@@ -1,0 +1,28 @@
+<mat-dialog-content>
+    <h3 class="text-center text-primary">Assigned Members</h3>
+    <hr>
+</mat-dialog-content>
+
+<table class="table table-striped text-center align-middle">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 15%;">Lp:</th>
+            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let member of members; let i = index">
+            <th>{{i + 1}}</th>
+            <td>{{member.email}}</td>
+            <td>{{member.username | titlecase}}</td>
+            <td><button class="btn btn-outline-danger"><i class="fa fa-trash"></i></button></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<mat-dialog-actions>
+    <button class="btn btn-secondary mt-1 mx-auto" (click)="close()" type="button">Close</button>
+</mat-dialog-actions>

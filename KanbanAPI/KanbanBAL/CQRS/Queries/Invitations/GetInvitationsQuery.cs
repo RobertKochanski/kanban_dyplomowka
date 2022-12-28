@@ -1,5 +1,4 @@
 ﻿using KanbanBAL.Results;
-using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using System.Text.Json.Serialization;

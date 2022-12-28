@@ -178,6 +178,21 @@ namespace KanbanDAL.Migrations
                     b.ToTable("PersistedGrants", (string)null);
                 });
 
+            modelBuilder.Entity("JobUser", b =>
+                {
+                    b.Property<Guid>("JobsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("JobsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("JobUser");
+                });
+
             modelBuilder.Entity("KanbanDAL.Entities.Board", b =>
                 {
                     b.Property<Guid>("Id")
@@ -211,13 +226,43 @@ namespace KanbanDAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BoardId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Columns");
+                });
+
+            modelBuilder.Entity("KanbanDAL.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Invitation", b =>
@@ -290,9 +335,6 @@ namespace KanbanDAL.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -323,6 +365,7 @@ namespace KanbanDAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -331,8 +374,6 @@ namespace KanbanDAL.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("JobId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -340,6 +381,9 @@ namespace KanbanDAL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -496,6 +540,21 @@ namespace KanbanDAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("JobUser", b =>
+                {
+                    b.HasOne("KanbanDAL.Entities.Job", null)
+                        .WithMany()
+                        .HasForeignKey("JobsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KanbanDAL.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("KanbanDAL.Entities.Column", b =>
                 {
                     b.HasOne("KanbanDAL.Entities.Board", null)
@@ -503,6 +562,17 @@ namespace KanbanDAL.Migrations
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("KanbanDAL.Entities.Comment", b =>
+                {
+                    b.HasOne("KanbanDAL.Entities.Job", "Job")
+                        .WithMany("Comments")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("KanbanDAL.Entities.Invitation", b =>
@@ -523,13 +593,6 @@ namespace KanbanDAL.Migrations
                         .HasForeignKey("ColumnId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("KanbanDAL.Entities.User", b =>
-                {
-                    b.HasOne("KanbanDAL.Entities.Job", null)
-                        .WithMany("Users")
-                        .HasForeignKey("JobId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -595,7 +658,7 @@ namespace KanbanDAL.Migrations
 
             modelBuilder.Entity("KanbanDAL.Entities.Job", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

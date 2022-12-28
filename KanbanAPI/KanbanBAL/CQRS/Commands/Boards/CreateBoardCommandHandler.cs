@@ -51,7 +51,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
 
                 try
                 {
-                    await _context.AddAsync(board, cancellationToken);
+                    await _context.Boards.AddAsync(board, cancellationToken);
                     await _context.SaveChangesAsync(cancellationToken);
                     _logger.LogInformation($"[{DateTime.UtcNow}] Board was created.");
                 }
@@ -59,7 +59,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 {
                     errors.Add(ex.Message);
                     _logger.LogError(string.Join(Environment.NewLine, errors));
-                    return Result.BadRequest<Board>(errors);
+                    return Result.BadRequest(errors);
                 }
 
                 return Result.Ok();
@@ -111,7 +111,7 @@ namespace KanbanBAL.CQRS.Commands.Boards
                 {
                     errors.Add(e.Message);
                     _logger.LogError(string.Join(Environment.NewLine, errors));
-                    return Result.BadRequest<Board>(errors);
+                    return Result.BadRequest(errors);
                 }
 
                 return Result.Ok();

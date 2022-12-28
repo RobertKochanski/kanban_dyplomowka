@@ -1,6 +1,5 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL;
-using KanbanDAL.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -39,7 +38,7 @@ namespace KanbanBAL.CQRS.Commands.Columns
             {
                 errors.Add(ex.Message);
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<ResponseBoardModel>(errors);
+                return Result.BadRequest(errors);
             }
 
             return Result.Ok();

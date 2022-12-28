@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { BoardData } from 'src/app/_models/boardData';
 import { AccountService } from 'src/app/_services/account.service';
 import { BoardsService } from 'src/app/_services/boards.service';
+import { MembersDialogComponent } from './members-dialog/members-dialog.component';
 
 @Component({
   selector: 'app-board-list',
@@ -13,7 +15,11 @@ export class BoardListComponent implements OnInit {
   boards: BoardData[];
   createMode = false;
 
-  constructor(private boardService: BoardsService, public accountService: AccountService, private toastr: ToastrService) { }
+  constructor(
+    private dialog: MatDialog,
+    private boardService: BoardsService,
+    public accountService: AccountService, 
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadBoards();
@@ -48,4 +54,11 @@ export class BoardListComponent implements OnInit {
     this.toastr.info("Page Reloaded");
   }
 
+  openAssignedMembersDialog(board: any){
+    this.dialog.open(MembersDialogComponent, {
+      height: '400px',
+      width: '600px',
+      data: board.members,
+    });
+  }
 }
