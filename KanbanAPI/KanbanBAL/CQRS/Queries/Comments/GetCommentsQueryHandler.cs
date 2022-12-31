@@ -29,6 +29,7 @@ namespace KanbanBAL.CQRS.Queries.Comments
             {
                 comments = await commentsQuery
                     .ToListAsync(cancellationToken);
+                comments.OrderByDescending(x => x.CreateAt);
             }
             catch (Exception e)
             {

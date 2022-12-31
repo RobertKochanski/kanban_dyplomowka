@@ -47,6 +47,14 @@ namespace KanbanAPI.Controllers
             return await _mediator.Send(command).Process();
         }
 
+        [HttpPut("{boardId}/{userId}")]
+        public async Task<IActionResult> Put(Guid boardId, string userId, RemoveUserFromBoardCommand command)
+        {
+            command.BoardId = boardId;
+            command.UserId = userId;
+            return await _mediator.Send(command).Process();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

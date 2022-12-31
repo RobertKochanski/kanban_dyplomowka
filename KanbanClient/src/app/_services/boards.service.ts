@@ -29,4 +29,9 @@ export class BoardsService {
   deleteBoard(id: any){
     return this.http.delete(this.baseUrl + 'Boards/' + id);
   }
+
+
+  removeMember(boardId: any, userId: any){
+    return this.http.put(this.baseUrl + boardId + '/' + userId, {});
+  }
 }

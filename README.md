@@ -8,10 +8,11 @@
 - Dodawanie kolumn  &check;
 - Dodawanie/edycja zadań  &check;
 - Przypisywanie listy użytkowników do zadań &check;
-- Wyświetlanie szczegółów zadań z listą komentarzy
-- Dodawanie komentarzy do zadań
-- Usuwanie użytkowników z tablicy
+- Wyświetlanie szczegółów zadań z listą komentarzy  &check;
+- Dodawanie/usuwanie komentarzy  &check;
+- Usuwanie użytkowników z tablicy  &check;
 - Drag And Drop
+- SignalR
 
 ### MEDIUM
 - Listy członków  &check;

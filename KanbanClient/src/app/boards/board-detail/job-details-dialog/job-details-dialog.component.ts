@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { CommentData } from 'src/app/_models/commentData';
+import { AccountService } from 'src/app/_services/account.service';
+import { CommentsService } from 'src/app/_services/comments.service';
 import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.component';
 
 @Component({
@@ -8,16 +12,52 @@ import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.compo
   styleUrls: ['./job-details-dialog.component.css']
 })
 export class JobDetailsDialogComponent {
-  job: any
+  job: any;
+  board: any;
+  comments: CommentData[];
+  model: any = {};
 
   constructor(
+    public accountService: AccountService,
+    private commentsService: CommentsService,
+    private toastr: ToastrService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<EditJobDialogComponent>,
+    private dialogRef: MatDialogRef<JobDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) 
     { }
 
   ngOnInit(): void {
-    this.job = this.data;
+    this.job = this.data[0];
+    this.board = this.data[1];
+    this.loadComments(this.job.id);
+  }
+
+  loadComments(id: any){
+    this.commentsService.getComments(id).subscribe(comments => {
+      this.comments = comments.data;
+    })
+  }
+
+  createComment(){
+    this.commentsService.postComment(this.model, this.job.id).subscribe(response => {
+      this.loadComments(this.job.id);
+      this.toastr.success("Comment Created");
+    }, error => {
+      this.toastr.error(error);
+    });
+
+    this.model = {};
+  }
+
+  deleteComment(commentId: any){
+    if(confirm("Are you sure you want to delete this comment?")){
+      this.commentsService.deleteColumn(commentId).subscribe(() => {
+        this.loadComments(this.job.id);
+        this.toastr.error("Comment Deleted")
+      }, error => {
+        this.toastr.error(error);
+      })
+    }
   }
 
   close() {

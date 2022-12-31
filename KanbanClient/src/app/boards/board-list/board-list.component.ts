@@ -58,7 +58,7 @@ export class BoardListComponent implements OnInit {
     this.dialog.open(MembersDialogComponent, {
       height: '400px',
       width: '600px',
-      data: board.members,
+      data: board,
     });
   }
 }

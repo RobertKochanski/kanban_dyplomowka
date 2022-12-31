@@ -153,7 +153,7 @@ export class BoardDetailComponent implements OnInit {
     this.dialog.open(JobDetailsDialogComponent, {
       height: '750px',
       width: '600px',
-      data: job,
+      data: [job, this.board],
     });
   }
 

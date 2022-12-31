@@ -25,7 +25,7 @@
                 <td routerLink="/boards/{{board.id}}">{{board.createdAt | date}}</td>
                 <td routerLink="/boards/{{board.id}}">{{board.members.length}}</td>
                 <td *ngIf="accountService.currentUser$ | async as user">
-                    <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-primary"><i class="fa fa-cog"></i></button>
+                    <!-- <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-primary"><i class="fa fa-cog"></i></button> -->
                     <button class="btn btn-outline-primary m-1" (click)="openAssignedMembersDialog(board)"><i class="fa fa-users" aria-hidden="true"></i></button>
                     <button *ngIf="user.email === board.ownerEmail" class="btn btn-outline-danger" (click)="deleteBoard(board.id)"><i class="fa fa-trash"></i></button>  
                 </td>
