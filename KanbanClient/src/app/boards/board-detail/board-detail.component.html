@@ -4,7 +4,7 @@
 </div>
 
 <div class="container-fluid pt-3 mx-0" style="max-width: 80%;">
-    <div class="row flex-row flex-sm-nowrap py-3">
+    <div class="row flex-row flex-sm-nowrap py-3" cdkDropListGroup>
         <div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let column of columns">
             <div class="card bg-light">
                 <div class="card-body pt-1">
@@ -15,8 +15,11 @@
                         <h6 class="text-uppercase me-auto row align-items-center">{{column.name}}</h6>
                         <h6><button class="btn btn-secondary row align-items-center" (click)="openCreateJobDialog(column.id)">Add Job</button></h6>
                     </div>
-                    <div class="items border border-light">
-                        <div class="card shadow-sm mb-2" *ngFor="let job of column.jobs">
+                    <div class="items border border-light" *ngIf="column.jobs.length !== 0" 
+                      cdkDropList
+                      [cdkDropListData]="column.jobs"
+                      (cdkDropListDropped)="drop($event)">
+                        <div class="card shadow-sm mb-2" *ngFor="let job of column.jobs" cdkDrag>
                             <div class="card-body cursor-pointer p-2">
                                 <div class="card-title">
                                     <div class="d-flex flex-row card-title px-3 mb-0">
@@ -36,6 +39,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="items border border-light" *ngIf="column.jobs.length === 0"
+                      cdkDropList
+                      [cdkDropListData]="column.jobs"
+                      (cdkDropListDropped)="drop($event)">
+                        <div class="p-4"></div>
                     </div>
                 </div>
             </div>

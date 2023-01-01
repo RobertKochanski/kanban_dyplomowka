@@ -54,8 +54,6 @@ import { MembersDialogComponent } from './boards/board-list/members-dialog/membe
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
-    MatSelectModule,
-    ReactiveFormsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

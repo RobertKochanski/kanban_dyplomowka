@@ -16,6 +16,7 @@ import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.
 import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.component';
 import { JobDetailsDialogComponent } from './job-details-dialog/job-details-dialog.component';
 import { AssignedMembersDialogComponent } from './assigned-members-dialog/assigned-members-dialog.component';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board-detail',
@@ -175,5 +176,20 @@ export class BoardDetailComponent implements OnInit {
       width: '300px',
       data: job,
     });
+  }
+
+
+  // Drag and drop
+  drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }
