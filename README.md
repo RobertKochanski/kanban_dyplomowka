@@ -11,8 +11,9 @@
 - Wyświetlanie szczegółów zadań z listą komentarzy  &check;
 - Dodawanie/usuwanie komentarzy  &check;
 - Usuwanie użytkowników z tablicy  &check;
-- Drag And Drop
 - SignalR
+- Drag And Drop
+
 
 ### MEDIUM
 - Listy członków  &check;

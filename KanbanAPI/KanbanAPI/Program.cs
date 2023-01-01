@@ -1,3 +1,4 @@
+using KanbanAPI.SignalR;
 using KanbanBAL.Authentication;
 using KanbanBAL.CQRS.Commands.Boards;
 using KanbanBAL.CQRS.Commands.Users;
@@ -43,6 +44,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // Add services to the container.      
@@ -52,6 +69,7 @@ builder.Services.AddMediatR(typeof(RegisterUserCommandHandler));
 builder.Services.AddMediatR(typeof(GetBoardDetailsQueryHandler));
 builder.Services.AddMediatR(typeof(CreateBoardCommandHandler));
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -93,7 +111,8 @@ builder.Services.AddCors(options =>
         builder
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowAnyOrigin();
+            .AllowCredentials()
+            .WithOrigins("https://localhost:4200", "http://localhost:4200");
     });
 });
 
@@ -118,5 +137,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<RefreshHub>("hubs/refresh");
 
 app.Run();
