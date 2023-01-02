@@ -37,5 +37,11 @@ namespace KanbanAPI.Controllers
         {
             return await _mediator.Send(new DeleteColumnCommand(columnId)).Process();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> MovingJobs(MovingJobsCommand command)
+        {
+            return await _mediator.Send(command).Process();
+        }
     }
 }

@@ -162,7 +162,7 @@ export class BoardDetailComponent implements OnInit {
     if(confirm("Are you sure you want to delete this task?")){
       this.jobService.deleteJob(id).subscribe(() => {
         this.loadBoard();
-        this.toastr.error("Task Deleted")
+        this.toastr.error("Task Deleted");
       }, error => {
         this.toastr.error(error);
       })
@@ -180,16 +180,27 @@ export class BoardDetailComponent implements OnInit {
 
 
   // Drag and drop
-  drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>, currentId: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      console.log(event.previousContainer.data)
+      console.log(event.container.data)
+      console.log(currentId)
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      this.columnService.putColumn(currentId, event.container.data).subscribe(() => {
+        // this.loadBoard();
+        this.toastr.info("Task Moved");
+      }, error => {
+        this.toastr.error(error);
+      })
     }
+
+    
   }
 }

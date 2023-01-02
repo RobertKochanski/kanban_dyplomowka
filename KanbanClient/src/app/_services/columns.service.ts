@@ -17,4 +17,8 @@ export class ColumnsService {
   deleteColumn(id: any){
     return this.http.delete(this.baseUrl + 'Columns/' + id);
   }
+
+  putColumn(currentColumnId: any, currentContainer: any){
+    return this.http.put(this.baseUrl + 'Columns/', {obj: {currentColumnId, currentContainer}});
+  }
 }

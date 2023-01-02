@@ -28,7 +28,8 @@ namespace KanbanBAL.CQRS.Queries.Jobs
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
-                    UserEmails = x.Users.Select(u => u.Email).ToList()
+                    UserEmails = x.Users.Select(u => u.Email).ToList(),
+                    ColumnId = x.ColumnId,
                 })
                 .AsNoTracking();
 

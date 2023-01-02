@@ -18,7 +18,7 @@
                     <div class="items border border-light" *ngIf="column.jobs.length !== 0" 
                       cdkDropList
                       [cdkDropListData]="column.jobs"
-                      (cdkDropListDropped)="drop($event)">
+                      (cdkDropListDropped)="drop($event, column.id)">
                         <div class="card shadow-sm mb-2" *ngFor="let job of column.jobs" cdkDrag>
                             <div class="card-body cursor-pointer p-2">
                                 <div class="card-title">
@@ -43,8 +43,8 @@
                     <div class="items border border-light" *ngIf="column.jobs.length === 0"
                       cdkDropList
                       [cdkDropListData]="column.jobs"
-                      (cdkDropListDropped)="drop($event)">
-                        <div class="p-4"></div>
+                      (cdkDropListDropped)="drop($event, column.id)">
+                        <div class="card shadow-sm p-4">Drop task here</div>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,8 @@ namespace KanbanBAL.CQRS.Queries.Boards
                             Id = z.Id,
                             Name = z.Name,
                             Description = z.Description,
-                            UserEmails = z.Users.Select(em => em.Email)
+                            UserEmails = z.Users.Select(em => em.Email),
+                            ColumnId = z.ColumnId
                         })
                     }),
                     OwnerEmail = x.OwnerEmail,

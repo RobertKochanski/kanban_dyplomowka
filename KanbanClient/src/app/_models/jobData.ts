@@ -3,4 +3,5 @@ export interface JobData{
     name: string
     description: string
     userEmails: string[]
+    columnId: string
 }

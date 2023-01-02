@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string? Description { get; set; }
         public IEnumerable<string>? UserEmails { get; set; }
+        public Guid ColumnId { get; set; }
     }
 }
