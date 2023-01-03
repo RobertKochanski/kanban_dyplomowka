@@ -138,7 +138,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
-app.MapHub<PresenceHub>("hubs/presence");
+//app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<RefreshHub>("hubs/refresh");
 
 app.Run();

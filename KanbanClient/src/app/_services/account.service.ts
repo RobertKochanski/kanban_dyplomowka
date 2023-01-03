@@ -43,13 +43,13 @@ export class AccountService {
   setCurrentUser(user: UserData){
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
-    this.presenceService.createHubConnection(user);
+    // this.presenceService.createHubConnection(user);
   }
 
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
-    this.presenceService.stopHubConnection();
+    // this.presenceService.stopHubConnection();
   }
 
   currentUser(){

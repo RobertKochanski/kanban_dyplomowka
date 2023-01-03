@@ -23,12 +23,8 @@ export class RefreshService {
 
     this.hubConnection.start().catch(error => console.log(error));
 
-    this.hubConnection.on('UserIsOnline', email => {
-      this.toastr.info(email + ' has connected');
-    })
-
-    this.hubConnection.on('UserIsOffline', email => {
-      this.toastr.info(email + ' has disconnected');
+    this.hubConnection.on('Refresh', board => {
+      console.log(board);
     })
   }
 

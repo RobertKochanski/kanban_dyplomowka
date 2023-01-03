@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { async, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BoardListResponse } from '../_models/boardListResponse';
 import { BoardResponse } from '../_models/boardResponse';
+import { AccountService } from './account.service';
+import { RefreshService } from './refresh.service';
 
 
 @Injectable({
@@ -11,10 +13,13 @@ import { BoardResponse } from '../_models/boardResponse';
 })
 export class BoardsService {
   baseUrl = environment.apiUrl;
+  
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private refreshService: RefreshService, private accountService: AccountService) { }
 
   getBoards(): Observable<BoardListResponse>{
+    let user = this.accountService.currentUser();
+    this.refreshService.createHubConnection(user)
     return this.http.get<BoardListResponse>(this.baseUrl + 'Boards/UserAll');
   }
 

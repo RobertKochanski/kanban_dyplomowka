@@ -13,26 +13,26 @@ export class PresenceService {
 
   constructor(private toastr: ToastrService) { }
 
-  createHubConnection(user: UserData){
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubUrl + 'presence', {
-        accessTokenFactory: () => user.token
-      })
-      .withAutomaticReconnect()
-      .build();
+  // createHubConnection(user: UserData){
+  //   this.hubConnection = new HubConnectionBuilder()
+  //     .withUrl(this.hubUrl + 'presence', {
+  //       accessTokenFactory: () => user.token
+  //     })
+  //     .withAutomaticReconnect()
+  //     .build();
 
-    this.hubConnection.start().catch(error => console.log(error));
+  //   this.hubConnection.start().catch(error => console.log(error));
 
-    this.hubConnection.on('UserIsOnline', email => {
-      this.toastr.info(email + ' has connected');
-    })
+  //   this.hubConnection.on('UserIsOnline', email => {
+  //     this.toastr.info(email + ' has connected');
+  //   })
 
-    this.hubConnection.on('UserIsOffline', email => {
-      this.toastr.info(email + ' has disconnected');
-    })
-  }
+  //   this.hubConnection.on('UserIsOffline', email => {
+  //     this.toastr.info(email + ' has disconnected');
+  //   })
+  // }
 
-  stopHubConnection(){
-    this.hubConnection.stop().catch(error => console.log(error));
-  }
+  // stopHubConnection(){
+  //   this.hubConnection.stop().catch(error => console.log(error));
+  // }
 }
