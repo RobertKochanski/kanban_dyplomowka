@@ -9,7 +9,8 @@
             <div class="card bg-light">
                 <div class="card-body pt-1">
                     <div class="d-flex flex-row-reverse pb-1">
-                        <button class="btn btn-outline-danger p-0" style="width: 25px; height: 25px;" (click)="deleteColumn(column.id)"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-outline-danger p-0 mx-1" style="width: 25px; height: 25px;" (click)="deleteColumn(column.id)"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-outline-warning p-0" style="width: 25px; height: 25px;" (click)="openEditColumnDialog(column)"><i class="fa fa-gear"></i></button>
                     </div>
                     <div class="d-flex flex-row card-title px-3">
                         <h6 class="text-uppercase me-auto row align-items-center">{{column.name}}</h6>

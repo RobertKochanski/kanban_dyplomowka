@@ -14,6 +14,10 @@ export class ColumnsService {
     return this.http.post(this.baseUrl + 'Columns/' + boardId, model);
   }
 
+  putColumnName(name: any, columnId: any){
+    return this.http.put(this.baseUrl + 'Columns/' + columnId, {name});
+  }
+
   deleteColumn(id: any){
     return this.http.delete(this.baseUrl + 'Columns/' + id);
   }

@@ -26,6 +26,7 @@ import { EditJobDialogComponent } from './boards/board-detail/edit-job-dialog/ed
 import { JobDetailsDialogComponent } from './boards/board-detail/job-details-dialog/job-details-dialog.component';
 import { AssignedMembersDialogComponent } from './boards/board-detail/assigned-members-dialog/assigned-members-dialog.component';
 import { MembersDialogComponent } from './boards/board-list/members-dialog/members-dialog.component';
+import { EditColumnDialogComponent } from './boards/board-detail/edit-column-dialog/edit-column-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MembersDialogComponent } from './boards/board-list/members-dialog/membe
     JobDetailsDialogComponent,
     AssignedMembersDialogComponent,
     MembersDialogComponent,
+    EditColumnDialogComponent,
   ],
   imports: [
     BrowserModule,

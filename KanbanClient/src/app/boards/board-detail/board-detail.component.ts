@@ -17,6 +17,8 @@ import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.compon
 import { JobDetailsDialogComponent } from './job-details-dialog/job-details-dialog.component';
 import { AssignedMembersDialogComponent } from './assigned-members-dialog/assigned-members-dialog.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { EditColumnDialogComponent } from './edit-column-dialog/edit-column-dialog.component';
+import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
   selector: 'app-board-detail',
@@ -28,7 +30,9 @@ export class BoardDetailComponent implements OnInit {
   columns: ColumnData[];
   members: UserData[];
 
-  constructor(private boardService: BoardsService,
+  constructor(
+    public accountService: AccountService,
+    private boardService: BoardsService,
     private columnService: ColumnsService,
     private jobService: JobsService,
     private invitationService: InvitationsService,
@@ -72,9 +76,10 @@ export class BoardDetailComponent implements OnInit {
 
   // Columns
   openCreateColumnDialog(){
-    const dialogConfig = new MatDialogConfig(); 
-    
-    const dialogRef = this.dialog.open(CreateColumnDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(CreateColumnDialogComponent, {
+      height: '200px',
+      width: '300px'
+    });
     
     dialogRef.afterClosed().subscribe(data => {
       if(data){
@@ -84,6 +89,31 @@ export class BoardDetailComponent implements OnInit {
         }, error => {
           this.toastr.error(error);
         });
+      }
+
+      }, error => {
+        this.toastr.error(error);
+      }
+    );    
+  }
+
+  openEditColumnDialog(column: any){
+    const dialogRef = this.dialog.open(EditColumnDialogComponent, {
+      height: '200px',
+      width: '300px',
+      data: column,
+    });
+    
+    dialogRef.afterClosed().subscribe(data => {
+      if(data){
+        this.columnService.putColumnName(data, column.id).subscribe(response => {
+          this.loadBoard();
+          this.toastr.success("Column name updated");
+        }, error => {
+          this.toastr.error(error);
+        });
+      } else {
+        this.loadBoard();
       }
 
       }, error => {
