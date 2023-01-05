@@ -1,6 +1,7 @@
 <div class="text-center">
-    <button class="btn btn-primary btn-lg me-2" (click)="openCreateColumnDialog()">Create column</button>
-    <button class="btn btn-info btn-lg" (click)="openInvitationDialog()">Invite new member</button>
+    <button class="btn btn-primary btn-lg" (click)="openCreateColumnDialog()">Create column</button>
+    <button class="btn btn-info btn-lg mx-2" (click)="openInvitationDialog()">Invite new member</button>
+    <button class="btn btn-secondary btn-lg" (click)="loadBoard()">Refresh</button>
 </div>
 
 <div class="container-fluid pt-3 mx-0" style="max-width: 80%;">
@@ -25,8 +26,13 @@
                                 <div class="card-title">
                                     <div class="d-flex flex-row card-title px-3 mb-0">
                                         <h4 class="me-auto row align-items-center text-break text-center">{{job.name | titlecase}}</h4>
-                                        <p class="row align-items-center ps-3"><button class="btn btn-outline-primary m-1" (click)="openAssignedMembersDialog(job)">
-                                            <i class="fa fa-users" aria-hidden="true">{{job.userEmails.length}}</i></button>
+                                        <p class="row align-items-center ps-3">
+                                            <button *ngIf="accountService.currentUser$ | async as user" class="btn btn-outline-primary m-1" (click)="openAssignedMembersDialog(job)">
+                                                <i class="fa fa-users" aria-hidden="true">
+                                                    {{job.userEmails.length}}
+                                                </i>
+                                                <i *ngIf="job.userEmails.includes(user.email)" class="fa fa-exclamation text-success"></i>
+                                            </button>
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row card-body p-0 pb-1">
