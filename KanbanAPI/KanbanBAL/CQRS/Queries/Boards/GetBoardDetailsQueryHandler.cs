@@ -42,7 +42,7 @@ namespace KanbanBAL.CQRS.Queries.Boards
                             Description = z.Description,
                             UserEmails = z.Users.Select(em => em.Email),
                             ColumnId = z.ColumnId
-                        })
+                        }).OrderBy(y => y.Name)
                     }),
                     OwnerEmail = x.OwnerEmail,
                     Members = x.Members.Select(y => new ResponseUserModel

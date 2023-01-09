@@ -56,6 +56,7 @@ namespace KanbanBAL.CQRS.Queries.Boards
                         Username = y.UserName
                     })
                 })
+                .OrderBy(x => x.Name)
                 .AsNoTracking();
 
             List<ResponseBoardModel>? boards = null;
