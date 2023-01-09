@@ -33,7 +33,7 @@ export class BoardListComponent implements OnInit {
   }
 
   Reload(){
-    this.reloadBoards = interval(5000).subscribe(() => {
+    this.reloadBoards = interval(30000).subscribe(() => {
       this.loadBoards();
     })
   }

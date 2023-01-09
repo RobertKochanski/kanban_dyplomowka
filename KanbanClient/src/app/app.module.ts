@@ -27,6 +27,7 @@ import { JobDetailsDialogComponent } from './boards/board-detail/job-details-dia
 import { AssignedMembersDialogComponent } from './boards/board-detail/assigned-members-dialog/assigned-members-dialog.component';
 import { MembersDialogComponent } from './boards/board-list/members-dialog/members-dialog.component';
 import { EditColumnDialogComponent } from './boards/board-detail/edit-column-dialog/edit-column-dialog.component';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { EditColumnDialogComponent } from './boards/board-detail/edit-column-dia
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

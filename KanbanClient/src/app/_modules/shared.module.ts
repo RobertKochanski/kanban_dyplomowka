@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -20,6 +21,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     }),
     MatDialogModule,
     MatButtonModule,
+    NgxSpinnerModule.forRoot({
+      type: 'line-spin-fade'
+    }),
   ],
   exports: [
     ToastrModule,
@@ -28,7 +32,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatSelectModule,
     DragDropModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule,
   ]
 })
 export class SharedModule { }
