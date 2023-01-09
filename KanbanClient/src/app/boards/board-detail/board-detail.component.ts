@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardData } from 'src/app/_models/boardData';
 import { BoardsService } from 'src/app/_services/boards.service';
@@ -19,16 +19,18 @@ import { AssignedMembersDialogComponent } from './assigned-members-dialog/assign
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { EditColumnDialogComponent } from './edit-column-dialog/edit-column-dialog.component';
 import { AccountService } from 'src/app/_services/account.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-board-detail',
   templateUrl: './board-detail.component.html',
   styleUrls: ['./board-detail.component.css']
 })
-export class BoardDetailComponent implements OnInit {
+export class BoardDetailComponent implements OnInit, OnDestroy {
   board: BoardData;
   columns: ColumnData[];
   members: UserData[];
+  reload: Subscription;
 
   constructor(
     public accountService: AccountService,
@@ -41,8 +43,19 @@ export class BoardDetailComponent implements OnInit {
     private toastr: ToastrService)
     { }
 
+  ngOnDestroy(): void {
+    this.reload.unsubscribe();
+  }
+
   ngOnInit(): void {
     this.loadBoard();
+    this.Reload();
+  }
+
+  Reload(){
+    this.reload = interval(5000).subscribe(() => {
+      this.loadBoard();
+    })
   }
 
   loadBoard(){
@@ -119,8 +132,8 @@ export class BoardDetailComponent implements OnInit {
       }, error => {
         this.toastr.error(error);
       }
-    );    
-  }
+      );    
+    }
 
   deleteColumn(id: any){
     if(confirm("Are you sure you want to delete this column? Each task will also be deleted")){

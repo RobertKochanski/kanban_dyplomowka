@@ -1,18 +1,15 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
   <div class="container">
 
     <a class="navbar-brand pt-2" routerLink='/' routerLinkActive='active'><h3>Kanban</h3></a>
-
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <ng-container *ngIf="accountService.currentUser$ | async">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/boards" routerLinkActive="active">Boards</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/invitations" routerLinkActive="active">Invitations</a>
-            </li>
-        </ng-container>
+    <div class="collapse navbar-collapse" id="dupa">
+      <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/boards" routerLinkActive="active">Boards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/invitations" routerLinkActive="active">Invitations</a>
+        </li>
       </ul>
     </div>
 

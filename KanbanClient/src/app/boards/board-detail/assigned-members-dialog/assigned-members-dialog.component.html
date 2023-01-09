@@ -13,7 +13,8 @@
     <tbody>
         <tr *ngFor="let member of members; let i = index">
             <th>{{i + 1}}</th>
-            <th>{{member}}</th>
+            <th *ngIf="(accountService.currentUser$ | async).email === member" class="text-success">{{member}}</th>
+            <th *ngIf="(accountService.currentUser$ | async).email !== member">{{member}}</th>
         </tr>
     </tbody>
 </table>

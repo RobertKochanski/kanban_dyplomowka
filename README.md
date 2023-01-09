@@ -11,8 +11,9 @@
 - Wyświetlanie szczegółów zadań z listą komentarzy  &check;
 - Dodawanie/usuwanie komentarzy  &check;
 - Usuwanie użytkowników z tablicy  &check;
+- Edycja nazw kolumn  &check;
 - Drag And Drop  &check;
-- SignalR
+- SignalR albo cykliczne odświeżanie / przycisk  &check;
 
 ### MEDIUM
 - Listy członków  &check;
@@ -20,4 +21,4 @@
 
 ### LOW
 - Dodanie znacznika (badge) z ilością zaproszeń przy przycisku
-- Edycja nazw tablic i kolumn
+- Edycja nazw tablic

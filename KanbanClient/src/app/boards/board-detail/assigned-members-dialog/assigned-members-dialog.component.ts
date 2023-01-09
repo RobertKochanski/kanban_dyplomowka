@@ -14,6 +14,7 @@ export class AssignedMembersDialogComponent {
   members: any
 
   constructor(
+    public accountService: AccountService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AssignedMembersDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { interval, Subscription } from 'rxjs';
 import { BoardData } from 'src/app/_models/boardData';
 import { AccountService } from 'src/app/_services/account.service';
 import { BoardsService } from 'src/app/_services/boards.service';
@@ -14,6 +15,7 @@ import { MembersDialogComponent } from './members-dialog/members-dialog.componen
 export class BoardListComponent implements OnInit {
   boards: BoardData[];
   createMode = false;
+  reloadBoards: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -21,8 +23,19 @@ export class BoardListComponent implements OnInit {
     public accountService: AccountService, 
     private toastr: ToastrService) { }
 
+  ngOnDestroy(): void {
+    this.reloadBoards.unsubscribe();
+  }
+
   ngOnInit(): void {
     this.loadBoards();
+    this.Reload();
+  }
+
+  Reload(){
+    this.reloadBoards = interval(5000).subscribe(() => {
+      this.loadBoards();
+    })
   }
 
   loadBoards(){
