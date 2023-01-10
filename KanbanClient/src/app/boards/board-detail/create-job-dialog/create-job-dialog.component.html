@@ -3,28 +3,25 @@
     <hr>
 </mat-dialog-content>
 
-<mat-dialog-actions>
-    <div class="d-flex justify-content-center w-100">
-        <form [formGroup]='form' (ngSubmit)="createJob()" autocomplete="off">
-            
-            <div class="form-group">
-                <input type="text" class="form-control" name="name" formControlName='name' placeholder="Name">
-            </div>
-            <div class="form-group mt-1 mb-1">
-                <input type="text" class="form-control" name="description" formControlName='description' placeholder="Description">
-            </div>
+<form [formGroup]='form' (ngSubmit)="createJob()" autocomplete="off">
+    <div class="w-auto m-3">
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" formControlName='name' placeholder="Name">
+        </div>
+        <div class="form-group mt-1 mb-1">
+            <textarea class="form-control" name="description" formControlName='description' placeholder="Description" rows="8"></textarea>
+        </div>
 
-            <mat-form-field  appearance="fill">
-                <mat-label>Members</mat-label>
-                <mat-select formControlName='userEmails' multiple>
-                    <mat-option *ngFor="let member of members" [value]="member.email">{{member.email}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field  appearance="fill">
+            <mat-label>Members</mat-label>
+            <mat-select formControlName='userEmails' multiple>
+                <mat-option *ngFor="let member of members" [value]="member.email">{{member.email}}</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <div class="form-group text-center">
-                <button class="btn btn-success me-2 mt-1" type="submit">Save</button>
-                <button class="btn btn-secondary mt-1" (click)="close()" type="button">Close</button>
-            </div>
-        </form>
+        <div class="form-group text-center">
+            <button class="btn btn-success me-2 mt-1" type="submit">Save</button>
+            <button class="btn btn-secondary mt-1" (click)="close()" type="button">Close</button>
+        </div>
     </div>
-</mat-dialog-actions>
+</form>

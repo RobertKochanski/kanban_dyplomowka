@@ -21,7 +21,10 @@ namespace KanbanBAL.CQRS.Queries.Comments
 
         public async Task<Result<List<Comment>>> Handle(GetCommentsQuery request, CancellationToken cancellationToken)
         {
-            var commentsQuery = _context.Comments.Where(x => x.JobId == request.JobId).AsNoTracking();
+            var commentsQuery = _context.Comments
+                .Where(x => x.JobId == request.JobId)
+                .OrderByDescending(x => x.CreateAt)
+                .AsNoTracking();
 
             List<Comment>? comments = null;
             var errors = new List<string>();
@@ -29,7 +32,6 @@ namespace KanbanBAL.CQRS.Queries.Comments
             {
                 comments = await commentsQuery
                     .ToListAsync(cancellationToken);
-                comments.OrderByDescending(x => x.CreateAt);
             }
             catch (Exception e)
             {

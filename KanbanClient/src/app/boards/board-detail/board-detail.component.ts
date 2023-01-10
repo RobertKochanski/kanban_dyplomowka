@@ -147,8 +147,8 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
   // Jobs
   openCreateJobDialog(columnId: any){
     const dialogRef = this.dialog.open(CreateJobDialogComponent, {
-      height: '400px',
-      width: '300px',
+      height: '600px',
+      width: '400px',
       data: this.members,
     });
     

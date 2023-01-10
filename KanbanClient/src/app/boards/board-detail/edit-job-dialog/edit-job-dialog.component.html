@@ -3,25 +3,25 @@
     <hr>
 </mat-dialog-content>
 
-    <form [formGroup]='form' id="editForm" (ngSubmit)="editJob()" autocomplete="off">
-        <div class="w-auto m-3">
-            <div class="form-group">
-                <input type="text" class="form-control" name="name" formControlName='name' [(ngModel)]="job.name">
-            </div>
-            <div class="form-group mt-1 mb-1">
-                <textarea class="form-control" name="description" formControlName='description' [(ngModel)]="job.description" rows="8"></textarea>
-            </div>
-
-            <mat-form-field  appearance="fill">
-                <mat-label>Members</mat-label>
-                <mat-select formControlName='userEmails' multiple [(ngModel)]="job.userEmails">
-                    <mat-option *ngFor="let member of members" [value]="member.email">{{member.email}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <div class="form-group text-center">
-                <button class="btn btn-success me-2 mt-1" type="submit" [disabled]="!form.dirty">Update</button>
-                <button class="btn btn-secondary mt-1" (click)="close()" type="button">Close</button>
-            </div>
+<form [formGroup]='form' id="editForm" (ngSubmit)="editJob()" autocomplete="off">
+    <div class="w-auto m-3">
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" formControlName='name' [(ngModel)]="job.name">
         </div>
-    </form>
+        <div class="form-group mt-1 mb-1">
+            <textarea class="form-control" name="description" formControlName='description' [(ngModel)]="job.description" rows="8"></textarea>
+        </div>
+
+        <mat-form-field  appearance="fill">
+            <mat-label>Members</mat-label>
+            <mat-select formControlName='userEmails' multiple [(ngModel)]="job.userEmails">
+                <mat-option *ngFor="let member of members" [value]="member.email">{{member.email}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="form-group text-center">
+            <button class="btn btn-success me-2 mt-1" type="submit" [disabled]="!form.dirty">Update</button>
+            <button class="btn btn-secondary mt-1" (click)="close()" type="button">Close</button>
+        </div>
+    </div>
+</form>
