@@ -8,5 +8,7 @@
         public string? Description { get; set; }
         public List<User>? Users { get; set; }
         public List<Comment>? Comments { get; set; }
+        public DateTime? Deadline { get; set; }
+        public string? Priority { get; set; }
     }
 }

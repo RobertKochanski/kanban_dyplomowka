@@ -33,6 +33,8 @@ namespace KanbanBAL.CQRS.Commands.Jobs
                 Name = request.Name,
                 Description = request.Description,
                 Users = new List<User>(),
+                Priority = request.Priority,
+                Deadline = request.Deadline,
             };
 
             request.UserEmails = request.UserEmails.Distinct().ToList();

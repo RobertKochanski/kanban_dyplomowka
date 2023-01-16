@@ -6,7 +6,7 @@
 
 <div class="container-fluid pt-3 mx-0" style="max-width: 80%;">
     <div class="row flex-row flex-sm-nowrap py-3" cdkDropListGroup>
-        <div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let column of columns">
+        <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3" *ngFor="let column of columns">
             <div class="card bg-light">
                 <div class="card-body pt-1">
                     <div class="d-flex flex-row-reverse pb-1">
@@ -22,12 +22,25 @@
                       [cdkDropListData]="column.jobs"
                       (cdkDropListDropped)="drop($event, column.id)">
                         <div class="card shadow-sm mb-2" *ngFor="let job of column.jobs" cdkDrag>
-                            <div class="card-body cursor-pointer p-2">
+                            <div class="card-body cursor-pointer py-2 px-1">
                                 <div class="card-title">
-                                    <div class="d-flex flex-row card-title px-3 mb-0">
+                                    <div class="d-flex flex-row card-title ps-3 pe-1 mb-0">
                                         <h4 class="me-auto row align-items-center text-break text-center">{{job.name | titlecase}}</h4>
-                                        <p class="row align-items-center ps-3">
-                                            <button *ngIf="accountService.currentUser$ | async as user" class="btn btn-outline-primary m-1" (click)="openAssignedMembersDialog(job)">
+                                        <p class="d-flex align-items-center ms-3">
+                                            <span *ngIf="job.priority === 'High'" class="border border-danger rounded-circle text-center p-1" style="min-width: 30px;">
+                                                <i class="fa fa-exclamation text-danger"></i>
+                                                <i class="fa fa-exclamation text-danger"></i>
+                                                <i class="fa fa-exclamation text-danger"></i>
+                                            </span>
+                                            <span *ngIf="job.priority === 'Medium'" class="border border-warning rounded-circle text-center p-1" style="min-width: 25px;">
+                                                <i class="fa fa-exclamation text-warning"></i>
+                                                <i class="fa fa-exclamation text-warning"></i>
+                                            </span>
+                                            <span *ngIf="job.priority === 'Low'" class="border border-success rounded-circle text-center p-1" style="min-width: 20px;">
+                                                <i class="fa fa-exclamation text-success"></i>
+                                            </span>
+                                            <button *ngIf="accountService.currentUser$ | async as user" class="btn btn-outline-primary px-0 m-1" style="min-width: 60px;"
+                                              (click)="openAssignedMembersDialog(job)">
                                                 <i class="fa fa-users" aria-hidden="true">
                                                     {{job.userEmails.length}}
                                                 </i>
@@ -35,8 +48,14 @@
                                             </button>
                                         </p>
                                     </div>
-                                    <div class="d-flex flex-row card-body p-0 pb-1">
+                                    <!-- <div class="d-flex flex-row card-body p-0 pb-1">
                                         <h6 class="me-auto row align-items-center m-0 p-0 text-break">{{job.description | titlecase}}</h6>
+                                    </div> -->
+                                    <div *ngIf="job.deadline <= board.currentDate" class="border border-danger rounded" style="vertical-align: middle; display: flex; justify-content: center; align-items: center; background-color: indianred;">
+                                        <h6 class="text-center m-0"><b>Term:</b> {{job.deadline | date:'YYYY/MM/dd'}}</h6>
+                                    </div>
+                                    <div *ngIf="job.deadline > board.currentDate" class="border border-danger rounded" style="vertical-align: middle; display: flex; justify-content: center; align-items: center;">
+                                        <h6 class="text-center m-0"><b>Term:</b> {{job.deadline | date:'YYYY/MM/dd'}}</h6>
                                     </div>
                                     <div class="text-center">
                                         <button class="btn btn-primary m-1" (click)="openDetailsJobDialog(job)">Details</button>

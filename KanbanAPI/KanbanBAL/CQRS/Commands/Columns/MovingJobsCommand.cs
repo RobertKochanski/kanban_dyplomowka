@@ -1,7 +1,6 @@
 ﻿using KanbanBAL.Results;
 using KanbanDAL.Models;
 using MediatR;
-using System.Text.Json.Serialization;
 
 namespace KanbanBAL.CQRS.Commands.Columns
 {

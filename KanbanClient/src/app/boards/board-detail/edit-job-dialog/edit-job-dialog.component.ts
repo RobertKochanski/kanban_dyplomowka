@@ -1,10 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { JobData } from 'src/app/_models/jobData';
-import { UserData } from 'src/app/_models/userData';
 import { JobsService } from 'src/app/_services/jobs.service';
-import { CreateJobDialogComponent } from '../create-job-dialog/create-job-dialog.component';
+import { DatePipe } from '@angular/common'
+import { JobData } from 'src/app/_models/jobData';
 
 @Component({
   selector: 'app-edit-job-dialog',
@@ -12,16 +11,22 @@ import { CreateJobDialogComponent } from '../create-job-dialog/create-job-dialog
   styleUrls: ['./edit-job-dialog.component.css']
 })
 export class EditJobDialogComponent {
-  job: any
-  members: any
+  job: JobData;
+  members: any;
+  minDate: Date;
+
+  date = new Date();
 
   form = this.fb.group({
-    name: [''],
+    name: ['', Validators.required],
     description: [''],
-    userEmails: [[]]
+    userEmails: [[]],
+    deadline: [],
+    priority: ['High']
   })
 
   constructor(
+    public datepipe: DatePipe,
     private fb: FormBuilder, 
     private jobService: JobsService,
     private dialog: MatDialog,
@@ -32,9 +37,17 @@ export class EditJobDialogComponent {
   ngOnInit(): void {
     this.job = this.data[0];
     this.members = this.data[1];
+    this.minDate = new Date;
+
+    let latest_date = this.datepipe.transform(this.data[0].deadline, 'dd MMMM YYYY');
+    this.form.controls['deadline'].setValue(latest_date);
+    this.form.controls['priority'].setValue(this.job.priority);
   }
 
   editJob(){
+    var date = new Date(this.form.controls['deadline'].value)
+    var dateFixed = new Date(date.setMinutes(date.getMinutes() - date.getTimezoneOffset()));
+    this.form.controls['deadline'].setValue(dateFixed);
     this.dialogRef.close(this.form.value);
   }
 

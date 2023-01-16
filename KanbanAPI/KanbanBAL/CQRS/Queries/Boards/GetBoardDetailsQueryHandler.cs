@@ -41,7 +41,9 @@ namespace KanbanBAL.CQRS.Queries.Boards
                             Name = z.Name,
                             Description = z.Description,
                             UserEmails = z.Users.Select(em => em.Email),
-                            ColumnId = z.ColumnId
+                            ColumnId = z.ColumnId,
+                            Deadline = z.Deadline,
+                            Priority = z.Priority,
                         }).OrderBy(y => y.Name)
                     }),
                     OwnerEmail = x.OwnerEmail,
@@ -49,7 +51,8 @@ namespace KanbanBAL.CQRS.Queries.Boards
                     {
                         Email = y.Email,
                         Username = y.UserName
-                    })
+                    }),
+                    CurrentDate = DateTime.Now,
                 })
                 .AsNoTracking();
 

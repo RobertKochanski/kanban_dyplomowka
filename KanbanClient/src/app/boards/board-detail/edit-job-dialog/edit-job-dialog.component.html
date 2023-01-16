@@ -3,14 +3,18 @@
     <hr>
 </mat-dialog-content>
 
-<form [formGroup]='form' id="editForm" (ngSubmit)="editJob()" autocomplete="off">
+<form [formGroup]='form' (ngSubmit)="editJob()" autocomplete="off">
     <div class="w-auto m-3">
         <div class="form-group">
-            <input type="text" class="form-control" name="name" formControlName='name' [(ngModel)]="job.name">
+            <label for="nameEdit">Name:</label>
+            <input type="text" class="form-control" id="nameEdit" name="name" formControlName='name' [(ngModel)]="job.name">
         </div>
         <div class="form-group mt-1 mb-1">
-            <textarea class="form-control" name="description" formControlName='description' [(ngModel)]="job.description" rows="8"></textarea>
+            <label for="descriptionEdit">Description:</label>
+            <textarea class="form-control" id="descriptionEdit" name="description" formControlName='description' [(ngModel)]="job.description" rows="4"></textarea>
         </div>
+
+        <app-date-picker [formControl]="$any(form.controls['deadline'])" [label]='"Deadline"' [minDate]="minDate"></app-date-picker>
 
         <mat-form-field  appearance="fill">
             <mat-label>Members</mat-label>
@@ -19,8 +23,17 @@
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field  appearance="fill">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName='priority'>
+                <mat-option value="High">High</mat-option>
+                <mat-option value="Medium">Medium</mat-option>
+                <mat-option value="Low">Low</mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <div class="form-group text-center">
-            <button class="btn btn-success me-2 mt-1" type="submit" [disabled]="!form.dirty">Update</button>
+            <button class="btn btn-success me-2 mt-1" type="submit">Update</button>
             <button class="btn btn-secondary mt-1" (click)="close()" type="button">Close</button>
         </div>
     </div>
