@@ -30,6 +30,8 @@ namespace KanbanBAL.CQRS.Queries.Jobs
                     Description = x.Description,
                     UserEmails = x.Users.Select(u => u.Email).ToList(),
                     ColumnId = x.ColumnId,
+                    Priority = x.Priority,
+                    Deadline = x.Deadline,
                 })
                 .AsNoTracking();
 

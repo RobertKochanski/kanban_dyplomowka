@@ -227,9 +227,6 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      console.log(event.previousContainer.data)
-      console.log(event.container.data)
-      console.log(currentId)
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

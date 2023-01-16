@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserData } from 'src/app/_models/userData';
 import { JobsService } from 'src/app/_services/jobs.service';
@@ -11,11 +11,14 @@ import { JobsService } from 'src/app/_services/jobs.service';
 })
 export class CreateJobDialogComponent {
   members: any
+  minDate: Date;
 
   form = this.fb.group({
-    name: [''],
+    name: ['', Validators.required],
     description: [''],
-    userEmails: [[]]
+    userEmails: [[]],
+    deadline: [''],
+    priority: ['High']
   })
 
   constructor(
@@ -27,7 +30,8 @@ export class CreateJobDialogComponent {
     { }
 
   ngOnInit(): void {
-    this.members = this.data
+    this.members = this.data;
+    this.minDate = new Date;
   }
 
   createJob(){

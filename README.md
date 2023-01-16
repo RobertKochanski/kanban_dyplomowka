@@ -17,6 +17,8 @@
 
 ### MEDIUM
 - Listy członków  &check;
+- Dodanie terminu zadania  &check;
+- Dodanie priorytetu zadania  &check;
 - Forgot Password (dodać do użytkownika klucz uwierzytelniający i na jego podstawie zwraca hasło)
 
 ### LOW

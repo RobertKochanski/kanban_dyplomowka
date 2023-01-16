@@ -2,7 +2,7 @@
   <div class="container">
 
     <a class="navbar-brand pt-2" routerLink='/' routerLinkActive='active'><h3>Kanban</h3></a>
-    <div class="collapse navbar-collapse" id="dupa">
+    <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
         <li class="nav-item">
             <a class="nav-link" routerLink="/boards" routerLinkActive="active">Boards</a>

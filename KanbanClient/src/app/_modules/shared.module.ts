@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 
@@ -24,6 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule.forRoot({
       type: 'line-spin-fade'
     }),
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     ToastrModule,
@@ -34,6 +36,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     DragDropModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    BsDatepickerModule,
   ]
 })
 export class SharedModule { }

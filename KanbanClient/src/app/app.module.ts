@@ -28,6 +28,8 @@ import { AssignedMembersDialogComponent } from './boards/board-detail/assigned-m
 import { MembersDialogComponent } from './boards/board-list/members-dialog/members-dialog.component';
 import { EditColumnDialogComponent } from './boards/board-detail/edit-column-dialog/edit-column-dialog.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { DatePickerComponent } from './_form/date-picker/date-picker.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     AssignedMembersDialogComponent,
     MembersDialogComponent,
     EditColumnDialogComponent,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

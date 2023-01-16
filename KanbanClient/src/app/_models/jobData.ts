@@ -4,4 +4,6 @@ export interface JobData{
     description: string
     userEmails: string[]
     columnId: string
+    deadline: Date
+    priority: string
 }

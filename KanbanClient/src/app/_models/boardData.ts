@@ -9,4 +9,5 @@ export interface BoardData{
     columns: ColumnData[]
     ownerEmail: string
     members: UserData[]
+    currentDate: Date
 }

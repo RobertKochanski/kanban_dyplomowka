@@ -44,6 +44,8 @@ namespace KanbanBAL.CQRS.Commands.Jobs
             job.Name = request.Name;
             job.Description = request.Description;
             job.Users = users;
+            job.Deadline = request.Deadline;
+            job.Priority = request.Priority;
 
 
             var errors = new List<string>();

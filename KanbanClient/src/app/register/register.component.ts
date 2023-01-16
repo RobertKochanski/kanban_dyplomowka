@@ -23,7 +23,6 @@ export class RegisterComponent implements OnInit {
       this.cancel();
       this.router.navigateByUrl("/boards");
     }, error => {
-      console.log(error);
       this.validationErrors = error;
     })
   }

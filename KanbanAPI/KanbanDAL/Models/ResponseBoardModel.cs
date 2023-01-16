@@ -9,5 +9,7 @@
 
         public string OwnerEmail { get; set; }
         public IEnumerable<ResponseUserModel> Members { get; set; }
+
+        public DateTime CurrentDate { get; set; }
     }
 }
