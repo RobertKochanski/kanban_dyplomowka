@@ -31,10 +31,6 @@ namespace KanbanDAL
                 .Property(x => x.Name)
                 .IsRequired();
 
-            modelBuilder.Entity<Column>()
-                .HasIndex(x => x.Name)
-                .IsUnique();
-
             // Jobs
             modelBuilder.Entity<Job>()
                 .Property(x => x.Name)
