@@ -53,7 +53,7 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
   }
 
   Reload(){
-    this.reload = interval(10000).subscribe(() => {
+    this.reload = interval(15000).subscribe(() => {
       this.loadBoard();
     })
   }
@@ -241,6 +241,10 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
       })
     }
 
-    
+    this.Reload();
+  }
+
+  drag() {
+    this.reload.unsubscribe();
   }
 }
