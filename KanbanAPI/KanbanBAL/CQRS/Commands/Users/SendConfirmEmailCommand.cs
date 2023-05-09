@@ -55,15 +55,8 @@ namespace KanbanBAL.CQRS.Commands.Users
             var text = $"<strong>Hello {user.UserName} 👋</strong><br> " +
                 $"Welcome to Kanban, new friend!<br><br>" +
                 $"To get your account ready for work, we need you to confirm that this email belongs to you: " +
-                $"<a href={request.Link} class=\"btn btn-primary\">Go to Google</a>" +
+                $"<a href={request.Link} class=\"btn btn-primary\">Confirm</a>" +
                 "<a href=\"{{{pm:unsubscribe }}}\"></a>";
-
-//Hi Robert Kochański 👋
-//Welcome to Postmark, new friend! Your username to log in is Vegittoo.
-
-//To get your account ready for sending, we’ve created a Sender Signature for naruto18 @wp.pl.
-//We’ll use that email address as the “From” address on the emails you send.But before we can do that,
-//we need you to confirm that this email belongs to you:
 
             return await _emailHelper.sendEmail(user.UserName, request.Link, text);
         }

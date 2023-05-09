@@ -51,15 +51,10 @@ namespace KanbanAPI.Controllers
         [HttpGet("SendConfirm")]
         public async Task<IActionResult> SendConfirmEmail([FromQuery] string username)
         {
-            var user = new User
-            {
-                UserName = username
-            };
-
             var xd = new SendConfirmEmailCommand();
 
             xd.Username = username;
-            xd.Link = Url.Action("ConfirmEmail", "Users", new { username = user.UserName }, Request.Scheme);
+            xd.Link = Url.Action("ConfirmEmail", "Users", new { username = username }, Request.Scheme);
 
             return await _mediator.Send(xd).Process();
         }

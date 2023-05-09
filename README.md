@@ -26,4 +26,5 @@
 - Edycja nazw tablic
 
 ## Po Dyplomówce
-- Dodanie potwierdzenia konta przy logowaniu
+- Dodanie potwierdzenia konta przy logowaniu - niestety tylko emaile z domeny wp.pl działają (ograniczenia serwera SMTP)  &check;
+- Dodanie przypomnienia hasła - tak jak powyżej tylko domenta wp.pl
