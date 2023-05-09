@@ -2,6 +2,7 @@ using KanbanBAL.Authentication;
 using KanbanBAL.CQRS.Commands.Boards;
 using KanbanBAL.CQRS.Commands.Users;
 using KanbanBAL.CQRS.Queries.Boards;
+using KanbanBAL.Email;
 using KanbanDAL;
 using KanbanDAL.Entities;
 using MediatR;
@@ -20,7 +21,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<KanbanDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<User>(options =>
+                    {
+                        options.SignIn.RequireConfirmedAccount = false;
+                        options.SignIn.RequireConfirmedEmail = true;
+                    }
+                )
+
                 .AddEntityFrameworkStores<KanbanDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -28,9 +35,9 @@ builder.Services.AddIdentityServer()
                 .AddApiAuthorization<User, KanbanDbContext>()
                 .AddDeveloperSigningCredential();
 
-var authenticationSettings = new AuthenticationSettings();
-builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
-builder.Services.AddSingleton(authenticationSettings);
+//var authenticationSettings = new AuthenticationSettings();
+//builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+//builder.Services.AddSingleton(authenticationSettings);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -46,6 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // Add services to the container.      
+
+builder.Services.AddScoped<IEmailHelper, EmailHelper>();
 
 builder.Services.AddMediatR(typeof(LoginUserCommandHandler));
 builder.Services.AddMediatR(typeof(RegisterUserCommandHandler));

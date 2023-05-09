@@ -1,31 +1,40 @@
 ﻿using KanbanBAL.Authentication;
+using KanbanBAL.Email;
 using KanbanBAL.Results;
 using KanbanDAL;
 using KanbanDAL.Entities;
 using KanbanDAL.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+using PostmarkDotNet;
 
 namespace KanbanBAL.CQRS.Commands.Users
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<ResponseUserModel>>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result>
     {
         private readonly ITokenGenerator _tokenGenerator;
         private readonly UserManager<User> _userManager;
         private readonly KanbanDbContext _context;
+        private readonly IConfiguration _configuration;
         private readonly ILogger<RegisterUserCommandHandler> _logger;
+        private readonly IEmailHelper _emailHelper;
 
-        public RegisterUserCommandHandler(ITokenGenerator tokenGenerator, UserManager<User> userManager, ILogger<RegisterUserCommandHandler> logger, KanbanDbContext context)
+        public RegisterUserCommandHandler(ITokenGenerator tokenGenerator, UserManager<User> userManager, ILogger<RegisterUserCommandHandler> logger,
+            KanbanDbContext context, IConfiguration configuration, IEmailHelper emailHelper)
         {
             _tokenGenerator = tokenGenerator;
             _userManager = userManager;
             _context = context;
+            _configuration = configuration;
+            _emailHelper = emailHelper;
             _logger = logger;
             _logger.LogInformation($"[{DateTime.UtcNow}] Object '{nameof(RegisterUserCommandHandler)}' has been created.");
         }
 
-        public async Task<Result<ResponseUserModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             List<string> errors = new List<string>();
 
@@ -59,7 +68,7 @@ namespace KanbanBAL.CQRS.Commands.Users
             if (errors.Count > 0)
             {
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<ResponseUserModel>(errors);
+                return Result.BadRequest(errors);
             }
 
             var user = new User
@@ -80,20 +89,16 @@ namespace KanbanBAL.CQRS.Commands.Users
             if (errors.Count > 0)
             {
                 _logger.LogError(string.Join(Environment.NewLine, errors));
-                return Result.BadRequest<ResponseUserModel>(errors);
+                return Result.BadRequest(errors);
             }
 
-            var token = _tokenGenerator.CreateToken(user);
+            var text = $"<strong>Hello {user.UserName} 👋</strong><br> " +
+                $"Welcome to Kanban, new friend!<br><br>" +
+                $"To get your account ready for work, we need you to confirm that this email belongs to you: " +
+                $"<a href={request.Link} class=\"btn btn-primary\">Confirm</a>" +
+                "<a href=\"{{{pm:unsubscribe }}}\"></a>";
 
-            var result = new ResponseUserModel()
-            {
-                Id = user.Id,
-                Username = user.UserName,
-                Email = user.Email,
-                Token = token,
-            };
-
-            return Result.Ok(result);
+            return await _emailHelper.sendEmail(user.UserName, request.Link, text);
         }
     }
 }

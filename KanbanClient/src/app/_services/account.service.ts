@@ -33,9 +33,15 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'Users/register', model).pipe(
       map((user: UserResponse) => {
         if(user){
-          this.setCurrentUser(user.data);
+          // this.setCurrentUser(user.data);
         }
       })
+    )
+  }
+
+  sendConfirm(username: any){
+    return this.http.get(this.baseUrl + 'Users/SendConfirm?username=' + username).pipe(
+      map((user: UserResponse) => {})
     )
   }
 

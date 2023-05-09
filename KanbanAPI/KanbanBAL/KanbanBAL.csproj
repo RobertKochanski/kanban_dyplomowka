@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="Postmark" Version="4.7.7" />
   </ItemGroup>
 
   <ItemGroup>

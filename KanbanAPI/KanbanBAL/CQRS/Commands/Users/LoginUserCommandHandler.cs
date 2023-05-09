@@ -25,16 +25,16 @@ namespace KanbanBAL.CQRS.Commands.Users
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if (user == null)
+            if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 _logger.LogError($"[{DateTime.UtcNow}] Wrong email or password!");
                 return Result.BadRequest<ResponseUserModel>(new List<string> { $"Wrong email or password!" });
             }
 
-            if (!await _userManager.CheckPasswordAsync(user, request.Password))
+            if (!await _userManager.IsEmailConfirmedAsync(user))
             {
-                _logger.LogError($"[{DateTime.UtcNow}] Wrong email or password!");
-                return Result.BadRequest<ResponseUserModel>(new List<string> { $"Wrong email or password!" });
+                _logger.LogError($"[{DateTime.UtcNow}] Account doesn't confirmed");
+                return Result.BadRequest<ResponseUserModel>(new List<string> { $"Account doesn't confirmed" });
             }
 
             var token = _token.CreateToken(user);

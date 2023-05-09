@@ -1,6 +1,6 @@
 # kanban_dyplomowka
 
-## To Do Priority
+## To Do Priority - dyplomówka
 ### HIGH
 - Wyświetlanie kolumn  &check;
 - Wysyłanie zaproszeń do użytkowników  &check;
@@ -19,8 +19,11 @@
 - Listy członków  &check;
 - Dodanie terminu zadania  &check;
 - Dodanie priorytetu zadania  &check;
-- Forgot Password (dodać do użytkownika klucz uwierzytelniający i na jego podstawie zwraca hasło)
+- Forgot Password (dodać do użytkownika klucz uwierzytelniający i na jego podstawie zwraca hasło) - porzucone
 
 ### LOW
 - Dodanie znacznika (badge) z ilością zaproszeń przy przycisku
 - Edycja nazw tablic
+
+## Po Dyplomówce
+- Dodanie potwierdzenia konta przy logowaniu
